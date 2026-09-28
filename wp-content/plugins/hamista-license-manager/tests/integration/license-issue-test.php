@@ -137,7 +137,8 @@ function test_01_lm_processing_issues_licenses_with_right_limits_and_expiry() {
 		assert_true( 29 <= $days && $days <= 31, "expiry should be ~30 days out, got {$days}" );
 	}
 
-	assert_true( str_contains( implode( ' ', wp_list_pluck( $order->get_customer_order_notes(), 'content' ) ), 'Issued 2 licenses' ), 'an order note records the issue' );
+	$notes = wc_get_order_notes( [ 'order_id' => $order->get_id() ] );
+	assert_true( str_contains( implode( ' ', wp_list_pluck( $notes, 'content' ) ), 'Issued 2 licenses' ), 'an order note records the issue' );
 }
 
 /**
