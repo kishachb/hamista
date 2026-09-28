@@ -1,0 +1,57 @@
+/**
+ * Alerts (spec §4.2): hm-alert + --success, --error, --warning, --info. A leading .hm-icon takes
+ * the status colour. A dismiss control ([data-hm-dismiss], wired by core ui.js) is a
+ * .hm-btn--ghost.hm-btn--icon.hm-btn--sm pushed to the inline end.
+ */
+.hm-alert {
+	--hm-alert-color: var(--hm-color-text-muted);
+	display: flex;
+	align-items: flex-start;
+	gap: .75rem;
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--hm-color-border);
+	border-radius: var(--hm-radius-md);
+	background: var(--hm-color-surface);
+	font-size: .875rem;
+	line-height: var(--hm-leading-snug);
+}
+
+.hm-alert > .hm-icon {
+	margin-block-start: .15em;
+	color: var(--hm-alert-color);
+	font-size: 1.25rem;
+}
+
+.hm-alert p {
+	margin: 0;
+}
+
+.hm-alert a {
+	color: inherit;
+	font-weight: 600;
+}
+
+.hm-alert [data-hm-dismiss] {
+	margin-block: -.375rem;
+	margin-inline: auto -.5rem;
+}
+
+.hm-alert--success {
+	--hm-alert-color: var(--hm-color-success);
+	background: var(--hm-color-success-soft);
+}
+
+.hm-alert--error {
+	--hm-alert-color: var(--hm-color-danger);
+	background: var(--hm-color-danger-soft);
+}
+
+.hm-alert--warning {
+	--hm-alert-color: var(--hm-color-warning);
+	background: var(--hm-color-warning-soft);
+}
+
+.hm-alert--info {
+	--hm-alert-color: var(--hm-color-info);
+	background: var(--hm-color-info-soft);
+}

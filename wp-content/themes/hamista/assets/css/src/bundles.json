@@ -1,0 +1,18 @@
+{
+  "main.css": [
+    "tokens.css",
+    "fonts.css",
+    "base.css",
+    "layout.css",
+    "primitives/*.css",
+    "header.css",
+    "footer.css",
+    "motion.css",
+    "utilities.css"
+  ],
+  "../../../../plugins/hamista-core/assets/css/ui.css": [
+    "tokens.css",
+    "layout.css",
+    "primitives/*.css"
+  ]
+}

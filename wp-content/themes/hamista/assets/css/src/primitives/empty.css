@@ -1,0 +1,33 @@
+/**
+ * Empty states (spec §4.2): hm-empty (__icon, __title, __text). Actions go after __text.
+ * Icon tile: primitives/_shared.css.
+ */
+.hm-empty {
+	display: grid;
+	justify-items: center;
+	gap: .75rem;
+	padding: 4rem 1.5rem;
+	border: 1px dashed var(--hm-color-border);
+	border-radius: var(--hm-radius-xl);
+	text-align: center;
+}
+
+.hm-empty__icon {
+	width: 4rem;
+	height: 4rem;
+	margin-block-end: .5rem;
+	border-radius: 50%;
+	font-size: 1.75rem;
+}
+
+.hm-empty__title {
+	margin: 0;
+	font-size: var(--hm-text-xl);
+	font-weight: 700;
+}
+
+.hm-empty__text {
+	max-width: 36rem;
+	margin: 0 0 .75rem;
+	color: var(--hm-color-text-muted);
+}

@@ -1,0 +1,36 @@
+/**
+ * Stats (spec §4.2): hm-stat (__label, __value, __meta, __icon). Surface and icon tile:
+ * primitives/_shared.css.
+ */
+.hm-stat {
+	display: grid;
+	align-content: start;
+	gap: .25rem;
+	padding: 1.25rem 1.5rem;
+	box-shadow: var(--hm-shadow-xs);
+}
+
+.hm-stat__icon {
+	width: 2.75rem;
+	height: 2.75rem;
+	margin-block-end: .75rem;
+	border-radius: var(--hm-radius-md);
+	font-size: 1.25rem;
+}
+
+.hm-stat__label {
+	color: var(--hm-color-text-muted);
+	font-size: .875rem;
+}
+
+.hm-stat__value {
+	font-size: var(--hm-text-3xl);
+	font-weight: 800;
+	line-height: 1.2;
+	font-variant-numeric: tabular-nums;
+}
+
+.hm-stat__meta {
+	color: var(--hm-color-text-subtle);
+	font-size: .75rem;
+}

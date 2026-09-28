@@ -1,0 +1,63 @@
+/**
+ * Layout primitives (spec §4.2 "Layout"): container, sections, grids, stack, cluster.
+ * Part of both main.css and core's ui.css.
+ */
+.hm-container {
+	width: 100%;
+	max-width: calc(var(--hm-container) + 2 * var(--hm-gutter));
+	margin-inline: auto;
+	padding-inline: var(--hm-gutter);
+}
+
+.hm-container--narrow {
+	max-width: calc(var(--hm-container-narrow) + 2 * var(--hm-gutter));
+}
+
+.hm-section {
+	position: relative;
+	padding-block: var(--hm-section-y);
+}
+
+.hm-section--muted {
+	background: var(--hm-color-surface);
+}
+
+/*
+ * Mobile-first auto-fill grid: columns never get narrower than --hm-grid-min and never exceed
+ * --hm-grid-cols, so it collapses to one column on phones without media queries.
+ */
+.hm-grid {
+	--hm-grid-cols: 3;
+	--hm-grid-min: 16rem;
+	--hm-grid-gap: var(--hm-space-6);
+	display: grid;
+	gap: var(--hm-grid-gap);
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, max(var(--hm-grid-min), (100% - (var(--hm-grid-cols) - 1) * var(--hm-grid-gap)) / var(--hm-grid-cols))), 1fr));
+}
+
+.hm-grid--2 {
+	--hm-grid-cols: 2;
+	--hm-grid-min: 20rem;
+}
+
+.hm-grid--3 {
+	--hm-grid-cols: 3;
+}
+
+.hm-grid--4 {
+	--hm-grid-cols: 4;
+	--hm-grid-min: 13rem;
+}
+
+.hm-stack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--hm-stack-gap, var(--hm-space-4));
+}
+
+.hm-cluster {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--hm-cluster-gap, var(--hm-space-3));
+}

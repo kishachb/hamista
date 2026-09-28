@@ -1,0 +1,235 @@
+/**
+ * Base: a modern minimal reset and element defaults. Theme only; core's ui.css leaves the host
+ * theme's base styles alone.
+ */
+*,
+::before,
+::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+	scroll-padding-block-start: calc(var(--hm-header-h) + 1rem);
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	margin: 0;
+	background: var(--hm-color-bg);
+	color: var(--hm-color-text);
+	font: var(--hm-text-base)/var(--hm-leading-body) var(--hm-font-sans);
+	overflow-wrap: break-word;
+	-webkit-font-smoothing: antialiased;
+}
+
+#main {
+	flex: 1 0 auto;
+}
+
+[tabindex="-1"]:focus {
+	outline: 0;
+}
+
+/* Letter-spacing stays at its 0 default: tracking breaks Persian cursive joins. Only English
+   display headings get a slight negative tracking. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0 0 .6em;
+	font-weight: var(--hm-heading-weight);
+	line-height: var(--hm-leading-tight);
+	text-wrap: balance;
+}
+
+h1 {
+	font-size: var(--hm-text-4xl);
+}
+
+h2 {
+	font-size: var(--hm-text-3xl);
+}
+
+h3 {
+	font-size: var(--hm-text-2xl);
+}
+
+h4 {
+	font-size: var(--hm-text-xl);
+}
+
+h5,
+h6 {
+	font-size: var(--hm-text-lg);
+}
+
+h4,
+h5,
+h6 {
+	font-weight: 700;
+}
+
+:is(h1, h2):lang(en) {
+	letter-spacing: -.02em;
+}
+
+p,
+ul,
+ol,
+dl,
+blockquote,
+figure,
+pre,
+table {
+	margin: 0 0 1.25em;
+}
+
+p {
+	text-wrap: pretty;
+}
+
+ul,
+ol {
+	padding-inline-start: 1.5em;
+}
+
+a {
+	color: var(--hm-color-link);
+	text-underline-offset: .28em;
+	transition: color var(--hm-duration-fast);
+}
+
+a:hover {
+	color: var(--hm-color-link-hover);
+}
+
+:focus-visible {
+	outline: 2px solid var(--hm-color-focus);
+	outline-offset: 2px;
+}
+
+::selection {
+	background: rgba(255, 122, 26, .3);
+}
+
+img,
+video {
+	max-width: 100%;
+	height: auto;
+	vertical-align: middle;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th,
+td {
+	padding: .75em;
+	border-block-end: 1px solid var(--hm-color-border);
+	text-align: start;
+}
+
+blockquote {
+	margin-inline: 0;
+	padding-inline-start: 1.25em;
+	border-inline-start: 3px solid;
+	border-image: var(--hm-gradient-brand) 1;
+	font-size: var(--hm-text-lg);
+}
+
+code,
+pre {
+	font-family: var(--hm-font-mono);
+	font-size: .875em;
+}
+
+:not(pre) > code {
+	padding: .15em .4em;
+	border-radius: var(--hm-radius-sm);
+	background: var(--hm-color-surface-2);
+	direction: ltr;
+	unicode-bidi: isolate;
+}
+
+pre {
+	padding: 1em 1.25em;
+	overflow-x: auto;
+	border-radius: var(--hm-radius-md);
+	background: var(--hm-color-surface);
+	direction: ltr;
+	text-align: start;
+}
+
+hr {
+	height: 1px;
+	margin: 2.5rem 0;
+	border: 0;
+	background: var(--hm-color-border);
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+	color: inherit;
+}
+
+button {
+	cursor: pointer;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+/* A re-scoped palette paints its own surface. */
+.hm-scheme-dark {
+	background-color: var(--hm-color-bg);
+	color: var(--hm-color-text);
+}
+
+/* WordPress's screen-reader text; the skip link is one and appears on focus. */
+.screen-reader-text {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+/* inset-inline-end resets the physical left/top that WordPress's block CSS also sets. */
+.screen-reader-text:focus {
+	inset-block-start: .75rem;
+	inset-inline: .75rem auto;
+	z-index: 100000;
+	width: auto;
+	height: auto;
+	padding: .75rem 1.25rem;
+	clip: auto;
+	border-radius: var(--hm-radius-md);
+	background: var(--hm-color-text);
+	color: var(--hm-color-bg);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	::before,
+	::after {
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

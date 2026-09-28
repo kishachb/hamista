@@ -1,0 +1,45 @@
+/**
+ * Tabs (spec §4.2): hm-tabs (__list, __tab[aria-selected], __panel). Roles and keyboard support
+ * come from core ui.js ([data-hm-tabs]). The selected tab's underline is the brand gradient,
+ * drawn with border-image on a border every tab reserves (no layout shift).
+ */
+.hm-tabs__list {
+	display: flex;
+	gap: .25rem;
+	overflow-x: auto;
+	border-block-end: 1px solid var(--hm-color-border);
+	scrollbar-width: none;
+	/* The row of tabs must not widen grid/flex ancestors on phones; it scrolls instead. */
+	contain: inline-size;
+}
+
+.hm-tabs__tab {
+	flex: none;
+	margin-block-end: -1px;
+	padding: .75rem 1rem;
+	border: 0;
+	border-block-end: 2px solid transparent;
+	background: none;
+	color: var(--hm-color-text-muted);
+	font: inherit;
+	font-weight: 600;
+	text-decoration: none;
+	transition: color var(--hm-duration-fast);
+}
+
+.hm-tabs__tab:hover,
+.hm-tabs__tab[aria-selected="true"] {
+	color: var(--hm-color-text);
+}
+
+.hm-tabs__tab[aria-selected="true"] {
+	border-image: var(--hm-gradient-brand) 1;
+}
+
+.hm-tabs__tab:focus-visible {
+	outline-offset: -2px;
+}
+
+.hm-tabs__panel {
+	padding-block-start: 1.5rem;
+}

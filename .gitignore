@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Local agent workspace
+.superpowers/
+
+# Logs and OS files
+*.log
+.DS_Store
+
+# Release staging (dist/ itself is committed)
+/dist/*.tmp

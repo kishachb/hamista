@@ -1,0 +1,42 @@
+/**
+ * Declarations several primitives share, grouped once to keep main.min.css inside its 30 KB
+ * budget. Sorted first ("_"), so each primitive's own file can refine them.
+ */
+
+/* Elevated surfaces. */
+.hm-card,
+.hm-stat,
+.hm-thread__item,
+.hm-table-wrap,
+.hm-dialog {
+	border: 1px solid var(--hm-color-border);
+	border-radius: var(--hm-radius-lg);
+	background: var(--hm-color-elevated);
+}
+
+/* List resets. */
+.hm-steps,
+.hm-thread,
+.hm-tabs__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* Brand-tinted icon tiles. */
+.hm-stat__icon,
+.hm-empty__icon {
+	display: grid;
+	place-items: center;
+	background: var(--hm-gradient-soft);
+	color: var(--hm-color-link);
+}
+
+/* Focus ring for interactive primitives, so plugin screens keep it on any theme. (A plain list,
+   not :is(), so each selector keeps its own specificity and the primitives can refine it.) */
+.hm-btn:focus-visible,
+.hm-tabs__tab:focus-visible,
+.hm-pagination a:focus-visible {
+	outline: 2px solid var(--hm-color-focus);
+	outline-offset: 2px;
+}

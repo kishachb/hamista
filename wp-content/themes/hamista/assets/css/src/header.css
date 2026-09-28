@@ -1,0 +1,426 @@
+/**
+ * Site header (theme only).
+ *
+ * - Top bar: an announcement on the action gradient.
+ * - Header: .is-sticky; turns to glass once the page scrolls (.is-scrolled, set by an
+ *   IntersectionObserver sentinel; no scroll listeners). Without backdrop-filter the glass tint
+ *   alone stays readable (72% opaque).
+ * - .hm-nav is mobile-first: the vertical list with expandable submenus is the drawer menu; from
+ *   64em the header's copy becomes the horizontal menu with dropdowns (hover, or the aria-expanded
+ *   toggle for keyboard and touch). The drawer is never visible at that width.
+ * - Overlays (.hm-overlay): the off-canvas drawer enters from the inline-end side (follows dir),
+ *   the search panel from the top. visibility keeps closed panels out of the tab order.
+ */
+
+/* Top bar. */
+.hm-topbar {
+	background: var(--hm-gradient-action);
+	color: #FFF;
+	font-size: .875rem;
+	line-height: 1.6;
+	text-align: center;
+}
+
+.hm-topbar .hm-container {
+	position: relative;
+	padding-block: .625rem;
+}
+
+.hm-topbar p {
+	margin: 0;
+	padding-inline: 2.5rem;
+}
+
+.hm-topbar a {
+	margin-inline-start: .5em;
+	color: inherit;
+	font-weight: 700;
+}
+
+.hm-topbar :focus-visible {
+	outline-color: currentColor;
+}
+
+.hm-topbar__close {
+	--hm-btn-hover: rgba(255,255,255,.16);
+	--hm-btn-fg: #FFF;
+	position: absolute;
+	top: .25rem;
+	inset-inline-end: var(--hm-gutter);
+}
+
+[data-topbar="off"] .hm-topbar {
+	display: none;
+}
+
+/* Header. */
+.hm-sentinel {
+	height: 1px;
+	margin-block-end: -1px;
+}
+
+.hm-header {
+	z-index: var(--hm-z-header);
+	border-block-end: 1px solid transparent;
+	background: var(--hm-color-bg);
+	transition: var(--hm-duration-base);
+	transition-property: background-color, border-color, box-shadow;
+}
+
+.hm-header.is-sticky {
+	position: sticky;
+	top: var(--wp-admin--admin-bar--height, 0);
+}
+
+.hm-header.is-scrolled {
+	border-color: var(--hm-color-border);
+	box-shadow: var(--hm-shadow-xs);
+}
+
+.hm-header.is-glass.is-scrolled {
+	background: var(--hm-glass-bg);
+	-webkit-backdrop-filter: saturate(180%) blur(18px);
+	backdrop-filter: saturate(180%) blur(18px);
+}
+
+.hm-header .hm-container {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+	min-height: var(--hm-header-h);
+}
+
+.hm-header__actions {
+	display: flex;
+	align-items: center;
+	gap: .25rem;
+	margin-inline-start: auto;
+}
+
+/* Cart count: an .hm-badge--brand pinned to the cart button. */
+.hm-header__count {
+	position: absolute;
+	top: 0;
+	inset-inline-end: -.125rem;
+	padding: 0 .375em;
+	font-size: .6875rem;
+}
+
+.hm-header__count:empty,
+[data-hm-mode],
+html:not(.hm-js) .hm-mode-toggle,
+.hm-header .hm-nav {
+	display: none;
+}
+
+/* Colour-mode toggle: the current mode's icon is right before first paint (data-theme-mode). */
+[data-theme-mode="light"] [data-hm-mode="light"],
+[data-theme-mode="dark"] [data-hm-mode="dark"],
+[data-theme-mode="system"] [data-hm-mode="system"] {
+	display: flex;
+}
+
+/* Logo: light and dark images (the mobile image is a <picture> source), or the wordmark. */
+.hm-logo {
+	display: inline-flex;
+	align-items: center;
+	gap: .75rem;
+	text-decoration: none;
+}
+
+.hm-logo img {
+	width: var(--hm-logo-w, 132px);
+	max-height: calc(var(--hm-header-h) - 1rem);
+	object-fit: contain;
+}
+
+.hm-logo__dark,
+:is([data-theme="dark"], .hm-scheme-dark) .hm-logo--has-dark .hm-logo__light {
+	display: none;
+}
+
+:is([data-theme="dark"], .hm-scheme-dark) .hm-logo__dark {
+	display: block;
+}
+
+.hm-wordmark {
+	font-size: 1.5rem;
+	font-weight: 900;
+	line-height: 1.2;
+}
+
+.hm-wordmark:lang(en) {
+	letter-spacing: .04em;
+}
+
+.hm-logo small {
+	color: var(--hm-color-text-muted);
+	font-size: .75rem;
+}
+
+@media (max-width: 39.99em) {
+	.hm-logo img {
+		width: var(--hm-logo-w-mobile, 108px);
+	}
+
+	.hm-logo small {
+		display: none;
+	}
+}
+
+/* Navigation, mobile first (the drawer menu). */
+.hm-nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.hm-nav li {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.hm-nav__list > li {
+	border-block-end: 1px solid var(--hm-color-border);
+}
+
+.hm-nav a {
+	flex: 1;
+	padding-block: .75rem;
+	color: var(--hm-color-text);
+	font-size: var(--hm-text-lg);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.hm-nav :is(.current-menu-item, .current_page_item) > a {
+	color: var(--hm-color-link);
+}
+
+.hm-nav .sub-menu {
+	display: none;
+	flex-basis: 100%;
+	padding-block-end: .5rem;
+	padding-inline-start: 1rem;
+}
+
+.hm-nav [aria-expanded="true"] + .sub-menu {
+	display: block;
+}
+
+.hm-nav .sub-menu a {
+	padding-block: .5rem;
+	color: var(--hm-color-text-muted);
+	font-size: 1rem;
+	font-weight: 500;
+}
+
+.hm-nav__toggle {
+	--hm-btn-h: 2.5rem;
+	--hm-btn-fg: var(--hm-color-text-muted);
+}
+
+.hm-nav__toggle .hm-icon {
+	transition: transform var(--hm-duration-fast);
+}
+
+.hm-nav__toggle[aria-expanded="true"] .hm-icon {
+	transform: rotate(180deg);
+}
+
+@media (min-width: 64em) {
+	.hm-header .hm-nav {
+		display: flex;
+		flex: 1;
+		align-self: stretch;
+		justify-content: center;
+		margin-inline: 1.5rem;
+	}
+
+	.hm-nav__list {
+		display: flex;
+		gap: .25rem;
+	}
+
+	.hm-nav li {
+		position: relative;
+		flex-wrap: nowrap;
+		border: 0;
+	}
+
+	.hm-nav__list > li > a {
+		position: relative;
+		padding: .5rem .75rem;
+		color: var(--hm-color-text-muted);
+		font-size: .9375rem;
+	}
+
+	.hm-nav__list > li:hover > a,
+	.hm-nav__list > :is(.current-menu-item, .current-menu-ancestor, .current_page_item) > a {
+		color: var(--hm-color-text);
+	}
+
+	.hm-nav__list > :is(.current-menu-item, .current-menu-ancestor, .current_page_item) > a::after {
+		content: "";
+		position: absolute;
+		inset-inline: .75rem;
+		bottom: 0;
+		height: 2px;
+		border-radius: 2px;
+		background: var(--hm-gradient-brand);
+	}
+
+	.hm-nav__toggle {
+		--hm-btn-h: 1.75rem;
+		margin-inline-start: -.5rem;
+	}
+
+	.hm-nav .sub-menu {
+		position: absolute;
+		top: 100%;
+		inset-inline-start: 0;
+		z-index: var(--hm-z-dropdown);
+		display: block;
+		min-width: 15rem;
+		padding: .5rem;
+		border: 1px solid var(--hm-color-border);
+		border-radius: var(--hm-radius-lg);
+		background: var(--hm-color-elevated);
+		box-shadow: var(--hm-shadow-lg);
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY(8px);
+		transition: var(--hm-duration-fast) var(--hm-ease);
+		transition-property: opacity, transform, visibility;
+	}
+
+	.hm-nav .sub-menu .sub-menu {
+		top: -.5rem;
+		inset-inline-start: 100%;
+	}
+
+	.hm-nav .sub-menu a {
+		padding: .5rem .75rem;
+		border-radius: var(--hm-radius-sm);
+		color: var(--hm-color-text);
+		font-size: .875rem;
+	}
+
+	.hm-nav .sub-menu a:hover {
+		background: var(--hm-color-surface);
+	}
+
+	.hm-nav [aria-expanded="true"] + .sub-menu {
+		opacity: 1;
+		visibility: visible;
+		transform: none;
+	}
+
+	.hm-header__menu-btn {
+		display: none;
+	}
+
+	.hm-header__cta {
+		margin-inline-start: .5rem;
+	}
+}
+
+@media (min-width: 64em) and (hover: hover) {
+	.hm-nav li:hover > .sub-menu {
+		opacity: 1;
+		visibility: visible;
+		transform: none;
+	}
+}
+
+@media (max-width: 63.99em) {
+	.hm-header__cta,
+	.hm-header__account {
+		display: none;
+	}
+}
+
+/* Overlays. */
+.hm-overlay {
+	position: fixed;
+	inset: var(--wp-admin--admin-bar--height, 0) 0 0;
+	z-index: var(--hm-z-overlay);
+	visibility: hidden;
+	transition: visibility 0s var(--hm-duration-slow);
+}
+
+.hm-overlay__backdrop {
+	position: absolute;
+	inset: 0;
+	background: var(--hm-color-overlay);
+	opacity: 0;
+	transition: opacity var(--hm-duration-slow) var(--hm-ease);
+}
+
+.hm-overlay__panel {
+	position: absolute;
+	background: var(--hm-color-bg);
+	box-shadow: var(--hm-shadow-lg);
+	transition: transform var(--hm-duration-slow) var(--hm-ease);
+}
+
+.hm-drawer .hm-overlay__panel {
+	inset-block: 0;
+	inset-inline-end: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	width: min(100% - 3rem, 24rem);
+	padding: 0 var(--hm-gutter) 2rem;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	transform: translateX(100%);
+}
+
+[dir="rtl"] .hm-drawer .hm-overlay__panel {
+	transform: translateX(-100%);
+}
+
+.hm-search .hm-overlay__panel {
+	inset-inline: 0;
+	padding-block: 1.5rem;
+	transform: translateY(-100%);
+}
+
+.hm-overlay.is-open {
+	visibility: visible;
+	transition-delay: 0s;
+}
+
+.hm-overlay.is-open > .hm-overlay__backdrop {
+	opacity: 1;
+}
+
+/* (0,3,0): must beat the RTL start position above. */
+.hm-overlay.is-open > .hm-overlay__panel {
+	transform: none;
+}
+
+.hm-drawer__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-height: var(--hm-header-h);
+	border-block-end: 1px solid var(--hm-color-border);
+}
+
+.hm-drawer .hm-nav {
+	flex: 1;
+}
+
+.hm-search form {
+	display: flex;
+	gap: .5rem;
+}
+
+/* Scroll lock while an overlay is open (on <html>). */
+.hm-lock {
+	overflow: hidden;
+	scrollbar-gutter: stable;
+}

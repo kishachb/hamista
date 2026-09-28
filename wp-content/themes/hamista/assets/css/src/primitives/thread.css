@@ -1,0 +1,46 @@
+/**
+ * Threads (spec §4.2): hm-thread (__item, --staff, __meta, __body, __files) for tickets and
+ * service-order messages. Surface: primitives/_shared.css. Staff replies carry the brand tint.
+ */
+.hm-thread {
+	display: grid;
+	gap: 1rem;
+}
+
+.hm-thread__item {
+	display: grid;
+	gap: .75rem;
+	padding: 1.25rem;
+}
+
+.hm-thread__item--staff {
+	background: var(--hm-gradient-soft), var(--hm-color-elevated);
+}
+
+.hm-thread__meta,
+.hm-thread__files {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .5rem .75rem;
+	color: var(--hm-color-text-muted);
+	font-size: .875rem;
+}
+
+.hm-thread__meta strong {
+	color: var(--hm-color-text);
+}
+
+.hm-thread__body {
+	overflow-wrap: anywhere;
+}
+
+.hm-thread__body > :last-child,
+.hm-thread__files {
+	margin: 0;
+}
+
+.hm-thread__files {
+	padding: 0;
+	list-style: none;
+}

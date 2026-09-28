@@ -1,0 +1,140 @@
+/**
+ * Cards (spec §4.2): hm-card (__media, __body, __title, __text, __footer) + --hover, --glass,
+ * --bordered, --highlight. Surface: primitives/_shared.css. Settings > Layout "card style"
+ * restyles the default card through data-card-style on <html>.
+ *
+ * - --hover lifts with transform only and fades in a pre-rendered shadow layer (opacity), so the
+ *   animation stays on the compositor. Its title link stretches over the whole card.
+ * - --highlight paints a gradient border with the padding-box / border-box background-clip technique.
+ * - --glass blurs what is behind it; without backdrop-filter it falls back to a solid surface.
+ */
+.hm-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	box-shadow: var(--hm-shadow-sm);
+}
+
+.hm-card__media {
+	aspect-ratio: 16 / 10;
+	overflow: hidden;
+	border-start-start-radius: inherit;
+	border-start-end-radius: inherit;
+	background: var(--hm-color-surface-2);
+}
+
+.hm-card__media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform var(--hm-duration-slow) var(--hm-ease);
+}
+
+.hm-card__body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: .75rem;
+	padding: 1.5rem;
+}
+
+.hm-card__title {
+	margin: 0;
+	font-size: var(--hm-text-xl);
+	font-weight: 700;
+	line-height: var(--hm-leading-snug);
+}
+
+.hm-card__title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.hm-card__text {
+	margin: 0;
+	color: var(--hm-color-text-muted);
+}
+
+.hm-card__footer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .75rem;
+	padding: 1rem 1.5rem;
+	border-block-start: 1px solid var(--hm-color-border);
+}
+
+.hm-card--hover {
+	transition: transform var(--hm-duration-base) var(--hm-ease);
+}
+
+.hm-card--hover::after {
+	content: "";
+	position: absolute;
+	inset: -1px;
+	border-radius: inherit;
+	box-shadow: var(--hm-shadow-lg);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity var(--hm-duration-base);
+}
+
+.hm-card--hover:hover {
+	transform: translateY(-4px);
+}
+
+.hm-card--hover:hover::after {
+	opacity: 1;
+}
+
+.hm-card--hover:hover .hm-card__media img {
+	transform: scale(1.04);
+}
+
+.hm-card--hover .hm-card__title a::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	border-radius: var(--hm-radius-lg);
+}
+
+.hm-card--hover .hm-card__title a:focus-visible {
+	outline: 0;
+}
+
+.hm-card--hover .hm-card__title a:focus-visible::after {
+	outline: 2px solid var(--hm-color-focus);
+	outline-offset: 3px;
+}
+
+.hm-card--hover :is(.hm-card__footer a, .hm-badge) {
+	position: relative;
+	z-index: 2;
+}
+
+.hm-card--bordered,
+[data-card-style="bordered"] .hm-card {
+	box-shadow: none;
+}
+
+.hm-card--glass,
+[data-card-style="glass"] .hm-card {
+	background: var(--hm-glass-bg);
+	-webkit-backdrop-filter: blur(18px) saturate(160%);
+	backdrop-filter: blur(18px) saturate(160%);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	.hm-card--glass,
+	[data-card-style="glass"] .hm-card {
+		background: var(--hm-color-elevated);
+	}
+}
+
+.hm-card.hm-card--highlight {
+	border: 1.5px solid transparent;
+	background: linear-gradient(var(--hm-color-elevated), var(--hm-color-elevated)) padding-box, var(--hm-gradient-brand) border-box;
+	box-shadow: var(--hm-shadow-md), 0 24px 56px -28px rgba(190, 18, 60, .45);
+}

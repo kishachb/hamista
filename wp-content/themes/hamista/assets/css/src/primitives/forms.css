@@ -1,0 +1,155 @@
+/**
+ * Forms (spec §4.2): hm-form, hm-form-row, hm-field (__label, __help, __error), hm-input,
+ * hm-select, hm-textarea, hm-check, hm-dropzone, hm-required.
+ *
+ * Control borders use --hm-color-border-strong (>= 3:1 against the page, WCAG 1.4.11). Inputs are
+ * at least 16px so iOS does not zoom on focus. Invalid state: aria-invalid="true". The dropzone
+ * highlights while a file is dragged over it (.is-dragover, set by core ui.js).
+ */
+.hm-form,
+.hm-form-row {
+	display: grid;
+	gap: 1.25rem;
+}
+
+@media (min-width: 40em) {
+	.hm-form-row {
+		grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+	}
+}
+
+.hm-field {
+	display: grid;
+	gap: .5rem;
+	min-width: 0;
+}
+
+.hm-field__label {
+	font-size: .875rem;
+	font-weight: 600;
+}
+
+.hm-field__help,
+.hm-field__error {
+	color: var(--hm-color-text-muted);
+	font-size: .875rem;
+}
+
+.hm-field__error {
+	display: flex;
+	align-items: center;
+	gap: .4em;
+	color: var(--hm-color-danger);
+	font-weight: 600;
+}
+
+.hm-required {
+	margin-inline-start: .15em;
+	color: var(--hm-color-danger);
+	text-decoration: none;
+}
+
+.hm-input,
+.hm-select,
+.hm-textarea {
+	width: 100%;
+	min-height: 3rem;
+	padding: .625rem .875rem;
+	border: 1px solid var(--hm-color-border-strong);
+	border-radius: var(--hm-radius-md);
+	background-color: var(--hm-color-elevated);
+	color: var(--hm-color-text);
+	font: inherit;
+	font-size: max(1rem, 16px);
+	line-height: 1.5;
+	-webkit-appearance: none;
+	appearance: none;
+	transition: border-color var(--hm-duration-fast);
+}
+
+:is(.hm-input, .hm-textarea)::placeholder {
+	color: var(--hm-color-text-subtle);
+	opacity: 1;
+}
+
+:is(.hm-input, .hm-select, .hm-textarea):hover {
+	border-color: var(--hm-color-text-muted);
+}
+
+:is(.hm-input, .hm-select, .hm-textarea):focus {
+	border-color: var(--hm-color-focus);
+	outline: 2px solid var(--hm-color-focus);
+	outline-offset: 1px;
+}
+
+:is(.hm-input, .hm-select, .hm-textarea)[aria-invalid="true"] {
+	border-color: var(--hm-color-danger);
+}
+
+:is(.hm-input, .hm-select, .hm-textarea):disabled {
+	background-color: var(--hm-color-surface-2);
+	color: var(--hm-color-text-muted);
+	cursor: not-allowed;
+}
+
+.hm-textarea {
+	min-height: 8rem;
+	resize: vertical;
+}
+
+/* The chevron is drawn with currentColor gradients, so it follows the colour mode. */
+.hm-select {
+	padding-inline-end: 2.5rem;
+	background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+	background-position: calc(100% - 1.125rem) 50%, calc(100% - .8125rem) 50%;
+	background-size: .3125rem .3125rem;
+	background-repeat: no-repeat;
+}
+
+[dir="rtl"] .hm-select {
+	background-position: .8125rem 50%, 1.125rem 50%;
+}
+
+.hm-check {
+	display: flex;
+	align-items: flex-start;
+	gap: .625rem;
+	cursor: pointer;
+}
+
+.hm-check input {
+	flex: none;
+	width: 1.125rem;
+	height: 1.125rem;
+	margin: .3em 0 0;
+	accent-color: var(--hm-color-primary);
+}
+
+.hm-dropzone {
+	display: grid;
+	justify-items: center;
+	gap: .5rem;
+	padding: 2.5rem 1.5rem;
+	border: 2px dashed var(--hm-color-border-strong);
+	border-radius: var(--hm-radius-lg);
+	background: var(--hm-color-surface);
+	color: var(--hm-color-text-muted);
+	text-align: center;
+	cursor: pointer;
+}
+
+.hm-dropzone:hover,
+.hm-dropzone.is-dragover {
+	border-color: var(--hm-color-link);
+	background: var(--hm-gradient-soft), var(--hm-color-surface);
+}
+
+.hm-dropzone:focus-within {
+	outline: 2px solid var(--hm-color-focus);
+	outline-offset: 2px;
+}
+
+.hm-dropzone .hm-icon {
+	color: var(--hm-color-link);
+	font-size: 1.75rem;
+}

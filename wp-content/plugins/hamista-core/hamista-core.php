@@ -33,6 +33,7 @@ define( 'HAMISTA_CORE_URL', plugin_dir_url( __FILE__ ) );
 require_once HAMISTA_CORE_PATH . 'includes/class-autoloader.php';
 \Hamista\Core\Autoloader::register( 'Hamista\\Core\\', HAMISTA_CORE_PATH . 'includes/' );
 require_once HAMISTA_CORE_PATH . 'includes/functions.php';
+require_once HAMISTA_CORE_PATH . 'includes/settings/register-core-tabs.php';
 
 register_activation_hook( __FILE__, [ \Hamista\Core\Installer::class, 'activate' ] );
 register_deactivation_hook( __FILE__, [ \Hamista\Core\Installer::class, 'deactivate' ] );

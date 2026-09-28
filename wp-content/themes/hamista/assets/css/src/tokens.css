@@ -1,0 +1,209 @@
+/**
+ * Design tokens (spec §4.1). The single source for the theme's main.css and core's fallback ui.css.
+ *
+ * - Colour tokens: light on :root, dark on :root[data-theme="dark"]; .hm-scheme-dark re-scopes the
+ *   dark palette to one element (the footer is always dark).
+ * - Type, shape, space, layout, motion and layers are shared by both modes.
+ * - Presets on <html>: data-radius (sharp | soft | round), data-spacing (compact | normal | relaxed).
+ * - Settings overrides are printed by the theme in <style id="hamista-custom-properties">.
+ *
+ * Contrast (WCAG 2.x; ratios in the task report): text on bg / surface / surface-2 >= 15:1, muted
+ * >= 5.8:1, subtle >= 4.5:1, links >= 4.5:1, white on every action stop >= 5.1:1, status text on
+ * its soft tint >= 4.5:1, control borders (border-strong) >= 3:1 — in both modes.
+ *
+ * Custom-property values are written without spaces after commas: minifiers keep them verbatim.
+ */
+
+/* Light palette (default). */
+:root {
+	color-scheme: light;
+	--hm-color-bg: #FFFFFF;
+	--hm-color-surface: #F7F7F8;
+	--hm-color-surface-2: #EFEFF3;
+	--hm-color-elevated: #FFFFFF;
+	--hm-color-text: #16161D;
+	--hm-color-text-muted: #5B5B6B;
+	--hm-color-text-subtle: #6B6B7A;
+	--hm-color-border: #E6E6EC;
+	--hm-color-border-strong: #858593;
+	--hm-color-overlay: rgba(11,11,15,.5);
+	--hm-color-primary: var(--hm-color-action-start);
+	--hm-color-primary-hover: #9A3412;
+	--hm-color-primary-contrast: #FFFFFF;
+	--hm-color-link: #C2410C;
+	--hm-color-link-hover: #9A3412;
+	--hm-color-focus: #7C3AED;
+	--hm-color-success: #15803D;
+	--hm-color-success-soft: #EDF9F1;
+	--hm-color-warning: #B45309;
+	--hm-color-warning-soft: #FEF5E7;
+	--hm-color-danger: #C81E1E;
+	--hm-color-danger-soft: #FEF1F1;
+	--hm-color-info: #1D5BD8;
+	--hm-color-info-soft: #EEF4FF;
+	--hm-glass-bg: rgba(255,255,255,.72);
+	--hm-gradient-soft: linear-gradient(var(--hm-gradient-angle),rgba(255,122,26,.1),rgba(255,59,92,.07) 50%,rgba(139,92,246,.1));
+	--hm-gradient-text: var(--hm-gradient-action);
+	--hm-shadow-xs: 0 1px 2px rgba(22,22,29,.06);
+	--hm-shadow-sm: 0 1px 2px rgba(22,22,29,.05),0 2px 8px -2px rgba(22,22,29,.08);
+	--hm-shadow-md: 0 2px 4px -1px rgba(22,22,29,.05),0 12px 28px -8px rgba(22,22,29,.14);
+	--hm-shadow-lg: 0 4px 8px -4px rgba(22,22,29,.06),0 28px 56px -16px rgba(22,22,29,.24);
+	--hm-shadow-glow: 0 10px 28px -8px rgba(190,18,60,.5);
+}
+
+/* Dark palette: luxury black. Tokens it does not repeat are shared with light. */
+:root[data-theme="dark"],
+.hm-scheme-dark {
+	color-scheme: dark;
+	--hm-color-bg: #0B0B0F;
+	--hm-color-surface: #14141B;
+	--hm-color-surface-2: #1C1C25;
+	--hm-color-elevated: #17171F;
+	--hm-color-text: #F4F4F6;
+	--hm-color-text-muted: #A3A3B2;
+	--hm-color-text-subtle: #8E8E9E;
+	--hm-color-border: #26262F;
+	--hm-color-border-strong: #686876;
+	--hm-color-overlay: rgba(0,0,0,.66);
+	--hm-color-link: #FF8A3D;
+	--hm-color-link-hover: #FFB27A;
+	--hm-color-focus: #A78BFA;
+	--hm-color-success: #4ADE80;
+	--hm-color-success-soft: #0F2418;
+	--hm-color-warning: #FBBF24;
+	--hm-color-warning-soft: #2A2110;
+	--hm-color-danger: #F87171;
+	--hm-color-danger-soft: #2C1417;
+	--hm-color-info: #60A5FA;
+	--hm-color-info-soft: #111E36;
+	--hm-glass-bg: rgba(11,11,15,.7);
+	--hm-gradient-soft: linear-gradient(var(--hm-gradient-angle),rgba(255,122,26,.14),rgba(255,59,92,.1) 50%,rgba(139,92,246,.16));
+	--hm-gradient-text: var(--hm-gradient-brand);
+	--hm-shadow-xs: 0 1px 2px rgba(0,0,0,.5);
+	--hm-shadow-sm: 0 1px 2px rgba(0,0,0,.5),0 2px 8px -2px rgba(0,0,0,.5);
+	--hm-shadow-md: 0 12px 28px -8px rgba(0,0,0,.7);
+	--hm-shadow-lg: 0 28px 56px -16px rgba(0,0,0,.8);
+	--hm-shadow-glow: 0 10px 30px -8px rgba(255,59,92,.5);
+}
+
+/* Mode-independent tokens. Brand stops are decorative only; action stops pass AA with white text. */
+:root {
+	--hm-color-brand-orange: #FF7A1A;
+	--hm-color-brand-red: #FF3B5C;
+	--hm-color-brand-purple: #8B5CF6;
+	--hm-color-action-start: #C2410C;
+	--hm-color-action-mid: #BE123C;
+	--hm-color-action-end: #7C3AED;
+	--hm-gradient-angle: 135deg;
+	--hm-gradient-brand: linear-gradient(var(--hm-gradient-angle),var(--hm-color-brand-orange),var(--hm-color-brand-red) 50%,var(--hm-color-brand-purple));
+	--hm-gradient-action: linear-gradient(var(--hm-gradient-angle),var(--hm-color-action-start),var(--hm-color-action-mid) 50%,var(--hm-color-action-end));
+
+	/* Type. fonts.css (theme) swaps --hm-font-sans to the bundled web fonts. */
+	--hm-font-system: system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+	--hm-font-sans: var(--hm-font-system);
+	--hm-font-mono: ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+	--hm-text-xs: .75rem;
+	--hm-text-sm: .875rem;
+	--hm-text-base: 1rem;
+	--hm-text-lg: clamp(1.0625rem,1.03rem + .15vw,1.125rem);
+	--hm-text-xl: clamp(1.125rem,1.05rem + .35vw,1.3125rem);
+	--hm-text-2xl: clamp(1.3125rem,1.15rem + .7vw,1.75rem);
+	--hm-text-3xl: clamp(1.5rem,1.25rem + 1.1vw,2.25rem);
+	--hm-text-4xl: clamp(1.75rem,1.35rem + 1.75vw,2.875rem);
+	--hm-text-5xl: clamp(2rem,1.4rem + 2.6vw,3.625rem);
+	--hm-text-6xl: clamp(2.25rem,1.4rem + 3.7vw,4.5rem);
+	--hm-leading-tight: 1.35;
+	--hm-leading-snug: 1.6;
+	--hm-leading-body: 1.85;
+	--hm-heading-weight: 800;
+
+	/* Shape (soft preset). */
+	--hm-radius-sm: 6px;
+	--hm-radius-md: 10px;
+	--hm-radius-lg: 16px;
+	--hm-radius-xl: 24px;
+	--hm-radius-pill: 999px;
+
+	/* Space: 4px grid (4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96). */
+	--hm-space-1: .25rem;
+	--hm-space-2: .5rem;
+	--hm-space-3: .75rem;
+	--hm-space-4: 1rem;
+	--hm-space-5: 1.25rem;
+	--hm-space-6: 1.5rem;
+	--hm-space-7: 2rem;
+	--hm-space-8: 2.5rem;
+	--hm-space-9: 3rem;
+	--hm-space-10: 4rem;
+	--hm-space-11: 5rem;
+	--hm-space-12: 6rem;
+	--hm-section-y: clamp(4rem,2.8rem + 5vw,7rem);
+
+	/* Layout. */
+	--hm-container: 1240px;
+	--hm-container-narrow: 760px;
+	--hm-gutter: clamp(1rem,.6rem + 2vw,2rem);
+	--hm-header-h: 4rem;
+
+	/* Motion. */
+	--hm-ease: cubic-bezier(.2,.8,.2,1);
+	--hm-duration-fast: 140ms;
+	--hm-duration-base: 240ms;
+	--hm-duration-slow: 420ms;
+
+	/* Layers. */
+	--hm-z-dropdown: 50;
+	--hm-z-header: 100;
+	--hm-z-overlay: 200;
+	--hm-z-modal: 300;
+	--hm-z-toast: 400;
+}
+
+/* Gradients start on the inline-start side, so they mirror in RTL. */
+[dir="rtl"] {
+	--hm-gradient-angle: 225deg;
+}
+
+@media (min-width: 64em) {
+	:root {
+		--hm-header-h: 4.75rem;
+	}
+}
+
+/* Persian sets generously; Latin (English) sets tighter. */
+[lang]:lang(en) {
+	--hm-leading-tight: 1.15;
+	--hm-leading-snug: 1.45;
+	--hm-leading-body: 1.6;
+}
+
+[data-radius="sharp"] {
+	--hm-radius-sm: 2px;
+	--hm-radius-md: 3px;
+	--hm-radius-lg: 4px;
+	--hm-radius-xl: 6px;
+	--hm-radius-pill: 4px;
+}
+
+[data-radius="round"] {
+	--hm-radius-sm: 10px;
+	--hm-radius-md: 16px;
+	--hm-radius-lg: 24px;
+	--hm-radius-xl: 32px;
+}
+
+[data-spacing="compact"] {
+	--hm-section-y: clamp(3rem,2.2rem + 3.2vw,5rem);
+}
+
+[data-spacing="relaxed"] {
+	--hm-section-y: clamp(5rem,3.2rem + 7vw,9rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--hm-duration-fast: 0s;
+		--hm-duration-base: 0s;
+		--hm-duration-slow: 0s;
+	}
+}

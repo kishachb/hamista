@@ -1,0 +1,52 @@
+/**
+ * Pagination (spec §4.2): hm-pagination around WordPress paginate_links() markup
+ * (the_posts_pagination( [ 'class' => 'hm-pagination' ] ), or a <nav> of .page-numbers).
+ */
+.hm-pagination,
+.hm-pagination :is(.nav-links, ul) {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: .5rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.hm-pagination {
+	margin-block-start: var(--hm-space-9);
+}
+
+.hm-pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .375em;
+	min-width: 2.75rem;
+	height: 2.75rem;
+	padding-inline: .75rem;
+	border: 1px solid var(--hm-color-border);
+	border-radius: var(--hm-radius-md);
+	background: var(--hm-color-elevated);
+	color: var(--hm-color-text);
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	text-decoration: none;
+}
+
+.hm-pagination a.page-numbers:hover {
+	border-color: var(--hm-color-border-strong);
+	color: var(--hm-color-text);
+}
+
+.hm-pagination .current {
+	border-color: transparent;
+	background: var(--hm-gradient-action);
+	color: #FFF;
+}
+
+.hm-pagination .dots {
+	min-width: 0;
+	border: 0;
+	background: none;
+}

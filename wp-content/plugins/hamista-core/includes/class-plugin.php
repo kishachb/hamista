@@ -11,6 +11,8 @@ use Hamista\Core\Admin\Admin_Menu;
 use Hamista\Core\Admin\Admin_UI;
 use Hamista\Core\Components\Renderer;
 use Hamista\Core\Modules\Module_Registry;
+use Hamista\Core\Settings\Settings_Page;
+use Hamista\Core\Settings\Settings_Registry;
 use Hamista\Core\Support\Account_Endpoints;
 use Hamista\Core\Support\Assets;
 use Hamista\Core\Support\Options;
@@ -74,6 +76,13 @@ final class Plugin {
 	 * @var Account_Endpoints
 	 */
 	private Account_Endpoints $account_endpoints;
+
+	/**
+	 * Settings registry. Built lazily by settings() (never on the frontend).
+	 *
+	 * @var Settings_Registry|null
+	 */
+	private ?Settings_Registry $settings = null;
 
 	/**
 	 * Whether boot() has run.
@@ -141,6 +150,7 @@ final class Plugin {
 		if ( is_admin() ) {
 			( new Admin_Menu() )->register();
 			( new Admin_UI() )->register();
+			( new Settings_Page() )->register();
 		}
 
 		/**
@@ -195,6 +205,33 @@ final class Plugin {
 	 */
 	public function account_endpoints(): Account_Endpoints {
 		return $this->account_endpoints;
+	}
+
+	/**
+	 * The settings registry, built the first time this is called by firing
+	 * `hamista_register_settings`. Only call this in wp-admin (the settings
+	 * screen and its save/reset/import/export handlers) — never on the
+	 * frontend; frontend reads use hamista_get_option() instead.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return Settings_Registry
+	 */
+	public function settings(): Settings_Registry {
+		if ( null === $this->settings ) {
+			$this->settings = new Settings_Registry();
+
+			/**
+			 * Fires once, lazily, the first time the settings registry is
+			 * needed (wp-admin only). Register tabs, sections and fields here.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param Settings_Registry $settings Call `$settings->add_tab( [...] )`.
+			 */
+			do_action( 'hamista_register_settings', $this->settings );
+		}
+		return $this->settings;
 	}
 
 	/**
@@ -271,6 +308,7 @@ final class Plugin {
 	 */
 	public static function option_defaults(): array {
 		return [
+			// Task A (bootstrap + support services).
 			'delete_data'     => false,
 			'ip_header'       => 'REMOTE_ADDR',
 			'email_logo'      => 0,
@@ -278,6 +316,51 @@ final class Plugin {
 			'mail_from_email' => '',
 			'calendar'        => 'jalali',
 			'persian_digits'  => false,
+
+			// Task 1.2 — Localization tab (extends the pair above).
+			'jalali_in_admin'       => true,
+			'persian_digits_prices' => false,
+
+			// Task 1.2 — Integrations tab.
+			'email_footer' => '',
+
+			// Task 1.2 — Performance tab (fields only; Task 1.4 behaviour).
+			'perf_disable_emojis'        => true,
+			'perf_disable_embeds'        => true,
+			'perf_heartbeat'             => 'reduce',
+			'perf_remove_jquery_migrate' => true,
+			'perf_dashicons_visitors'    => true,
+			'perf_speculation'           => 'auto',
+			'perf_webp_uploads'          => true,
+			'perf_big_image_threshold'   => 2560,
+			'perf_local_avatars'         => true,
+			'perf_dns_prefetch'          => '',
+			'perf_lazy_iframes'          => true,
+
+			// Task 1.2 — Security tab.
+			'sec_headers'               => true,
+			'sec_disable_xmlrpc'        => true,
+			'sec_block_user_enum'       => true,
+			'sec_generic_login_errors'  => true,
+			'sec_login_rate_limit'      => true,
+			'sec_login_max_attempts'    => 5,
+			'sec_login_lockout_minutes' => 15,
+			'sec_hide_version'          => true,
+			'sec_disable_file_editor'   => false,
+
+			// Task 1.2 — SEO tab.
+			'seo_schema'             => true,
+			'seo_org_type'           => 'Organization',
+			'seo_org_name'           => '',
+			'seo_org_logo'           => 0,
+			'seo_open_graph'         => true,
+			'seo_breadcrumbs_schema' => true,
+
+			// Task 1.2 — Custom code tab.
+			'code_head'       => '',
+			'code_body_open'  => '',
+			'code_footer'     => '',
+			'code_css'        => '',
 		];
 	}
 }

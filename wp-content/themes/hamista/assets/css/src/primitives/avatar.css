@@ -1,0 +1,35 @@
+/**
+ * Avatars (spec §4.2): hm-avatar — an image or initials on the action gradient.
+ * Extensions: --sm, --lg.
+ */
+.hm-avatar {
+	--hm-avatar-size: 2.5rem;
+	display: inline-grid;
+	flex: none;
+	place-items: center;
+	width: var(--hm-avatar-size);
+	height: var(--hm-avatar-size);
+	overflow: hidden;
+	border-radius: 50%;
+	background: var(--hm-gradient-action);
+	color: #FFF;
+	font-size: calc(var(--hm-avatar-size) * .4);
+	font-weight: 700;
+	line-height: 1;
+	text-transform: uppercase;
+	user-select: none;
+}
+
+.hm-avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.hm-avatar--sm {
+	--hm-avatar-size: 2rem;
+}
+
+.hm-avatar--lg {
+	--hm-avatar-size: 3.5rem;
+}
