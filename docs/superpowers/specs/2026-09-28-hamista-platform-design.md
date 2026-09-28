@@ -551,3 +551,122 @@ These routes are public and authenticated by the license key. Each one is rate l
 - Elementor Pro Theme Builder templates — Elementor Pro locations are supported.
 - Subscriptions and automatic license renewal billing — manual renewal is supported.
 - An English demo dataset.
+
+## 14. Implementation conventions (binding for every package)
+
+**Bootstrap (every plugin)**
+- The main file defines constants:
+  - core: `HAMISTA_CORE_{VERSION,FILE,PATH,URL}`
+  - license manager: `HAMISTA_LM_*`
+  - customer dashboard: `HAMISTA_DASHBOARD_*`
+  - service orders: `HAMISTA_SO_*`
+  - theme: `HAMISTA_THEME_{VERSION,DIR,URI}`
+- It requires `includes/class-autoloader.php` and registers the package namespace.
+- Activation and deactivation are hooked to `Installer`.
+- Boot timing:
+  - core boots on `plugins_loaded` priority 5 and fires `hamista_core_loaded`;
+  - a satellite boots on `plugins_loaded` priority 20. If `function_exists( 'hamista_core' )` is false, it only shows an admin notice.
+- Satellites register their features as modules on `hamista_register_modules`.
+
+**Autoloader:** `Autoloader::register( string $prefix, string $base_dir )`.
+- Namespace segments after the prefix become lower-case directories, with `_` turned into `-`.
+- The class short name is lower-cased with `_` turned into `-`.
+- Candidate files, tried in order: `class-{slug}.php`, `interface-{slug}.php`, `trait-{slug}.php`.
+- Example: `Hamista\Core\Modules\Abstract_Module` → `includes/modules/class-abstract-module.php`.
+
+**Plugin layout:**
+- `{slug}.php`, `uninstall.php`, `readme.txt`
+- `includes/` — classes; `functions.php` for global helpers
+- `templates/` — theme-overridable at `{theme}/{plugin-slug}/…`
+- `assets/{css,js,admin,images}/`
+- `languages/`
+- `tests/{unit,integration}/` — excluded from ZIPs
+
+**Templates:** use the core helpers:
+- `hamista_locate_template( string $plugin_slug, string $template, string $default_dir ): string`
+- `hamista_get_template( string $plugin_slug, string $template, array $args, string $default_dir ): void`
+
+Both check `{child-theme}/{plugin_slug}/{template}`, then `{parent-theme}/…`, then the default. `$args` is passed as a variable called `$args`; never use `extract()`.
+
+**Options and defaults**
+- Each package declares cheap, untranslated defaults at load time with `hamista_register_option_defaults( string $option, array $defaults )`.
+- `hamista_get_option()` returns the saved value, else the registered default, else the `$default` argument.
+- Settings tabs, which carry translated labels, are built **only** in wp-admin on the settings screen. A field without `default` falls back to the registered default.
+- The theme reads its option through `Hamista\Theme\Options::get()` with its own defaults array, so it works without core. It also registers those same defaults with core when core is present.
+
+**Translations timing:**
+- No `__()` before `init`. `Module::title()` and `description()` are called lazily, only in admin.
+- Plugins call `load_plugin_textdomain()` on `init`. The theme calls `load_theme_textdomain()` on `after_setup_theme`.
+
+**Hook callbacks:**
+- Public methods used as WordPress hook callbacks take **untyped / `mixed`** parameters and cast inside. WordPress passes strings, nulls and objects unpredictably.
+- Internal methods are fully typed.
+- No `declare(strict_types=1)` in files that hold hook callbacks.
+
+**Capabilities** (granted on activation to `administrator`, plus `shop_manager` when present):
+
+| Capability | Package |
+|---|---|
+| `hamista_view_reports` | core |
+| `hamista_manage_licenses` | license manager |
+| `hamista_manage_tickets` | customer dashboard |
+| `hamista_manage_service_orders` | service orders |
+
+Settings require `manage_options`.
+
+**Admin menu:** core registers the top-level `hamista` menu on `admin_menu` priority 9. Its landing page is Overview, or Settings when the admin-dashboard module is off. Satellites add submenus at priority 20.
+
+| Slug | Position |
+|---|---|
+| `hamista` (Overview) | 0 |
+| `edit.php?post_type=hamista_svc_order` | 10 |
+| `hamista-tickets` | 20 |
+| `hamista-licenses` | 30 |
+| `hamista-releases` | 31 |
+| `hamista-downloads` | 32 |
+| `hamista-customers` | 40 |
+| `hamista-revenue` | 41 |
+| messages (`edit.php?post_type=hamista_message`) | 50 |
+| `hamista-settings` | 90 |
+| `hamista-demo` | 95 |
+| `hamista-status` | 96 |
+
+Content CPTs (services, portfolio, FAQ, testimonials) keep their own top-level menus with a `menu_position` around 25–28.
+
+**Admin UI**
+- Style/script handle `hamista-admin`, from core. It covers the page header, cards, badges and list-table polish, and is RTL-aware.
+- Every Hamista admin page starts with `hamista_admin_header( string $title, array $args = [] )`, where args are `subtitle` and `actions` (a list of `{label,url,primary}`).
+
+**Frontend forms**
+- The form POSTs to the current URL. It includes `hamista_action` and a nonce field named `_hamista_nonce` whose action is bound to the object ID (for example `hamista_ticket_reply_{id}`).
+- It is handled on `template_redirect` by the owning package, following Post/Redirect/Get.
+- Feedback uses `wc_add_notice()` inside My Account, and the core flash helper elsewhere: `hamista_flash( string $message, string $type = 'success' )` and `hamista_flash_messages(): array`. Flash messages are stored per user, or per guest cookie token, in a short transient.
+- Forms on cacheable public pages refresh their nonce from `GET /wp-json/hamista/v1/form-token?action=…` before submitting.
+
+**REST:**
+- Core and theme utility routes use `hamista/v1`; the license API uses `hamista-license/v1`.
+- Responses carrying per-user data or nonces send `Cache-Control: no-store`.
+
+**Private files:** a file record is `{ name, path (relative to bucket), size, mime, uploaded_at }`. Rules:
+- The owning package checks permissions first, then calls `Private_Storage::send( $record )`.
+- Download URLs carry an object-bound nonce.
+- Never expose `path` in HTML.
+
+**Emails:** `hamista_mail( $to, $subject, [ 'heading', 'body' (HTML), 'button' => [ 'text', 'url' ], 'footer' ] )`. It renders `templates/emails/base.php`, which is RTL-aware, and can be overridden by a theme.
+
+**Frontend UI:** plugin screens use only the §4.2 primitives, the §4.1 tokens and core icons. Each package's own CSS is limited to its layout and is enqueued only on its screens. JS is vanilla and deferred. Runtime config comes from `wp_add_inline_script( handle, 'window.hamistaX = …', 'before' )`.
+
+**Database:**
+- Tables are created with `dbDelta`.
+- Each package stores its schema version in `hamista_{pkg}_db_version` and re-runs its installer on `plugins_loaded` when the version differs.
+- Dates are stored as UTC `datetime`.
+- `uninstall.php` drops tables and options only when the package's "delete data on uninstall" setting is on.
+
+**Tests**
+- **Unit tests:** `tests/unit/*Test.php` files define `test_*` functions. They use the assertion helpers from `tools/tests/bootstrap.php` (`assert_same`, `assert_true`, `assert_false`, `assert_contains`, `assert_throws`) and run with `php tools/tests/run.php [path]` — no WordPress.
+- **Integration tests:** `tests/integration/*.php` run inside WordPress through `tools/tests/run-integration.sh [path]`, which calls `$ENV/wp eval-file` with `tools/tests/wp-bootstrap.php`. That bootstrap adds the same assertions plus `hm_http( method, path, args )` for real HTTP calls against `http://127.0.0.1:8080`.
+- Tests create their own uniquely-named fixtures and delete them. They never reset the shared database.
+
+**Commits:** conventional-commit subjects scoped by package, for example `feat(core): …` or `feat(theme): …`. Stage **only your package's paths** — other lanes commit to the same branch concurrently. Every message ends with the two trailer lines given in the task brief.
+
+**Third-party assets:** Vazirmatn and Inter (OFL-1.1) go in the theme's `assets/fonts/` with their licence files. Lucide (ISC) and Simple Icons (CC0) are credited in core `assets/icons/CREDITS.md`.
