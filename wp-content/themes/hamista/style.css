@@ -1,0 +1,17 @@
+/*
+Theme Name: Hamista
+Theme URI: https://hamista.ir
+Author: HAMISTA
+Author URI: https://hamista.ir
+Description: A premium, Persian-first (RTL) theme for creative business studios that sell plugins, themes, software and branding services. Light and dark colour modes, a token-based design system shared with the HAMISTA plugins, self-hosted Vazirmatn and Inter variable fonts, accessible navigation, WooCommerce support and a unified settings panel when HAMISTA Core is active. Fast by default: no jQuery, no external requests, minified assets under strict budgets.
+Version: 1.0.0
+Requires at least: 6.5
+Tested up to: 7.1
+Requires PHP: 8.1
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: hamista
+Tags: e-commerce, blog, portfolio, rtl-language-support, translation-ready, custom-logo, custom-menu, featured-images, threaded-comments, wide-blocks, accessibility-ready
+*/
+
+/* Styles live in assets/css/main.css (built from assets/css/src/ by "npm run build"). */

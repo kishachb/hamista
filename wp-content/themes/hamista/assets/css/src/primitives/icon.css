@@ -1,0 +1,20 @@
+/**
+ * Icons (spec §4.2): hm-icon — inline SVG, 1em square, currentColor. Direction-sensitive icons
+ * (arrows, chevrons) carry hm-icon--dir and mirror in RTL; the [dir="ltr"] rule restores them in
+ * LTR islands inside RTL pages.
+ */
+.hm-icon {
+	display: inline-block;
+	flex: none;
+	width: 1em;
+	height: 1em;
+	vertical-align: -.125em;
+}
+
+[dir="rtl"] .hm-icon--dir {
+	transform: scaleX(-1);
+}
+
+[dir="ltr"] .hm-icon--dir {
+	transform: none;
+}

@@ -1,0 +1,183 @@
+/**
+ * Buttons (spec §4.2): hm-btn + --primary (action gradient), --dark, --secondary, --ghost, --link,
+ * --sm, --lg, --block, --icon; is-loading. Focus ring: primitives/_shared.css.
+ *
+ * Variants only set the --hm-btn-* variables, so :hover never has to out-rank a variant. Solid
+ * variants darken through an overlay layer on hover (white-on-gradient contrast only rises) and
+ * lift 1px; :active presses in. Padding is in em, so it scales with --sm / --lg. Settings >
+ * Layout "button style" changes what --primary paints, via data-button-style on <html>.
+ */
+.hm-btn {
+	--hm-btn-h: 2.75rem;
+	--hm-btn-bg: var(--hm-color-surface-2);
+	--hm-btn-hover: var(--hm-color-border);
+	--hm-btn-fg: var(--hm-color-text);
+	position: relative;
+	isolation: isolate;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .5em;
+	min-height: var(--hm-btn-h);
+	padding: .375em 1.25em;
+	border: 1px solid transparent;
+	border-radius: var(--hm-radius-md);
+	background: var(--hm-btn-bg);
+	color: var(--hm-btn-fg);
+	font: inherit;
+	font-weight: 600;
+	line-height: 1.3;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	transition: var(--hm-duration-fast);
+	transition-property: transform, background-color, border-color, color, box-shadow;
+}
+
+.hm-btn:hover {
+	background: var(--hm-btn-hover);
+	color: var(--hm-btn-fg);
+}
+
+.hm-btn:disabled,
+.hm-btn[aria-disabled="true"] {
+	opacity: .5;
+	pointer-events: none;
+}
+
+.hm-btn--primary,
+.hm-btn--dark {
+	--hm-btn-hover: var(--hm-btn-bg);
+	box-shadow: var(--hm-shadow-sm);
+}
+
+.hm-btn--primary {
+	--hm-btn-bg: var(--hm-gradient-action);
+	--hm-btn-fg: var(--hm-color-primary-contrast);
+}
+
+.hm-btn--dark,
+[data-button-style="dark"] .hm-btn--primary {
+	--hm-btn-bg: var(--hm-color-text);
+	--hm-btn-fg: var(--hm-color-bg);
+}
+
+[data-button-style="solid"] .hm-btn--primary {
+	--hm-btn-bg: var(--hm-color-primary);
+}
+
+.hm-btn--primary::before,
+.hm-btn--dark::before {
+	content: "";
+	position: absolute;
+	inset: -1px;
+	z-index: -1;
+	border-radius: inherit;
+	background: #000;
+	opacity: 0;
+	transition: opacity var(--hm-duration-fast);
+}
+
+.hm-btn--primary:hover::before,
+.hm-btn--dark:hover::before {
+	opacity: .14;
+}
+
+.hm-btn--primary:hover,
+.hm-btn--dark:hover {
+	box-shadow: var(--hm-shadow-glow);
+	transform: translateY(-1px);
+}
+
+/* After the lifts, so every variant presses in. */
+.hm-btn:active {
+	transform: scale(.97);
+}
+
+.hm-btn--secondary {
+	--hm-btn-bg: var(--hm-color-elevated);
+	--hm-btn-hover: var(--hm-color-surface);
+	border-color: var(--hm-color-border);
+	box-shadow: var(--hm-shadow-xs);
+}
+
+.hm-btn--secondary:hover {
+	border-color: var(--hm-color-border-strong);
+}
+
+.hm-btn--ghost {
+	--hm-btn-bg: transparent;
+	--hm-btn-hover: var(--hm-color-surface-2);
+}
+
+.hm-btn--link {
+	--hm-btn-bg: none;
+	--hm-btn-hover: none;
+	--hm-btn-fg: var(--hm-color-link);
+	min-height: 0;
+	padding: 0;
+	border: 0;
+	text-decoration: underline;
+	text-underline-offset: .28em;
+}
+
+.hm-btn--link:hover {
+	--hm-btn-fg: var(--hm-color-link-hover);
+}
+
+.hm-btn--sm {
+	--hm-btn-h: 2.25rem;
+	font-size: .875rem;
+}
+
+.hm-btn--lg {
+	--hm-btn-h: 3.25rem;
+	font-size: var(--hm-text-lg);
+}
+
+.hm-btn--block {
+	display: flex;
+	width: 100%;
+}
+
+.hm-btn--icon {
+	width: var(--hm-btn-h);
+	padding: 0;
+}
+
+/* Loading: the label stays in the accessibility tree; only its paint is hidden. */
+.hm-btn.is-loading {
+	-webkit-text-fill-color: transparent;
+	pointer-events: none;
+}
+
+.hm-btn.is-loading > * {
+	opacity: 0;
+}
+
+.hm-btn.is-loading::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	width: 1.25em;
+	height: 1.25em;
+	margin: auto;
+	border: 2px solid;
+	border-inline-end-color: transparent;
+	border-radius: 50%;
+	animation: hm-spin .7s linear infinite;
+}
+
+@keyframes hm-spin {
+	to {
+		transform: rotate(1turn);
+	}
+}
+
+/* A spinner is essential feedback: under reduced motion it keeps turning, slowly. */
+@media (prefers-reduced-motion: reduce) {
+	.hm-btn.is-loading::after {
+		animation-duration: 1.6s !important;
+		animation-iteration-count: infinite !important;
+	}
+}

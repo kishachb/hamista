@@ -1,0 +1,27 @@
+/**
+ * Utilities (theme only, deliberately minimal). hm-visually-hidden lives with hm-sr-only in
+ * primitives/sr-only.css. "Mobile" means below the 64em desktop header.
+ */
+.hm-text-start {
+	text-align: start;
+}
+
+.hm-text-center {
+	text-align: center;
+}
+
+.hm-text-end {
+	text-align: end;
+}
+
+@media (max-width: 63.99em) {
+	.hm-hide-mobile {
+		display: none !important;
+	}
+}
+
+@media (min-width: 64em) {
+	.hm-hide-desktop {
+		display: none !important;
+	}
+}

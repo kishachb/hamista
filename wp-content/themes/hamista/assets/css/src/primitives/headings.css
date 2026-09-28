@@ -1,0 +1,72 @@
+/**
+ * Headings (spec §4.2): hm-section-head (__eyebrow, __title, __subtitle), hm-gradient-text.
+ * Extension: hm-section-head--center.
+ */
+.hm-section-head {
+	max-width: 48rem;
+	margin-block-end: 3rem;
+}
+
+.hm-section-head--center {
+	margin-inline: auto;
+	text-align: center;
+}
+
+.hm-section-head__eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: .625em;
+	margin-block-end: .75rem;
+	color: var(--hm-color-link);
+	font-size: .875rem;
+	font-weight: 700;
+}
+
+.hm-section-head__eyebrow::before {
+	content: "";
+	width: 1.5rem;
+	height: 2px;
+	border-radius: 2px;
+	background: var(--hm-gradient-brand);
+}
+
+.hm-section-head__eyebrow:lang(en) {
+	font-size: .75rem;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+.hm-section-head__title {
+	margin: 0;
+	font-size: var(--hm-text-4xl);
+	font-weight: var(--hm-heading-weight);
+	line-height: var(--hm-leading-tight);
+}
+
+.hm-section-head__subtitle {
+	max-width: 40rem;
+	margin: 1rem 0 0;
+	color: var(--hm-color-text-muted);
+	font-size: var(--hm-text-lg);
+}
+
+.hm-section-head--center .hm-section-head__subtitle {
+	margin-inline: auto;
+}
+
+/* Light mode paints the action gradient (every stop >= 4.5:1 on white); dark, the brand gradient. */
+.hm-gradient-text {
+	background: var(--hm-gradient-text);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+@media (forced-colors: active) {
+	.hm-gradient-text {
+		background: none;
+		color: CanvasText;
+	}
+}

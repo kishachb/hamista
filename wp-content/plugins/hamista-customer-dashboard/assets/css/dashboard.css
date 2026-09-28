@@ -1,0 +1,369 @@
+/**
+ * Hamista Customer Dashboard — My Account shell, overview and notifications.
+ * Uses only the §4.1 tokens and §4.2 primitives (hamista-ui); depends on that handle.
+ * Enqueued only on is_account_page().
+ */
+
+/* Layout: put the grouped nav beside the content on wide screens. */
+.woocommerce-account .woocommerce-MyAccount-navigation {
+	display: none;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content {
+	width: 100%;
+}
+
+@media (min-width: 62em) {
+	.woocommerce-account form.woocommerce-form,
+	.woocommerce-account .woocommerce {
+		display: grid;
+		grid-template-columns: 15rem 1fr;
+		gap: var(--hm-space-8, 2rem);
+		align-items: start;
+	}
+}
+
+/* Grouped navigation (desktop sidebar). */
+.hm-account-nav {
+	display: grid;
+	gap: var(--hm-space-6, 1.5rem);
+	align-content: start;
+}
+
+.hm-account-nav__group-title {
+	margin: 0 0 .5rem;
+	color: var(--hm-color-text-subtle);
+	font-size: .75rem;
+	font-weight: 700;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+}
+
+.hm-account-nav__list {
+	display: grid;
+	gap: .125rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.hm-account-nav__link {
+	display: flex;
+	align-items: center;
+	gap: .625rem;
+	padding: .625rem .875rem;
+	border-radius: var(--hm-radius-md);
+	color: var(--hm-color-text-muted);
+	font-size: .9375rem;
+	font-weight: 600;
+	text-decoration: none;
+	transition: background var(--hm-duration-fast), color var(--hm-duration-fast);
+}
+
+.hm-account-nav__link:hover {
+	background: var(--hm-color-surface);
+	color: var(--hm-color-text);
+}
+
+.hm-account-nav__link .hm-icon {
+	flex: none;
+	color: var(--hm-color-text-subtle);
+}
+
+.hm-account-nav__item.is-current .hm-account-nav__link {
+	background: var(--hm-gradient-soft);
+	color: var(--hm-color-link);
+}
+
+.hm-account-nav__item.is-current .hm-account-nav__link .hm-icon {
+	color: var(--hm-color-link);
+}
+
+.hm-account-nav__badge {
+	margin-inline-start: auto;
+}
+
+.hm-account-nav__group--logout {
+	padding-block-start: var(--hm-space-4, 1rem);
+	border-block-start: 1px solid var(--hm-color-border);
+}
+
+.hm-account-nav__logout {
+	color: var(--hm-color-danger);
+}
+
+.hm-account-nav__logout .hm-icon {
+	color: var(--hm-color-danger);
+}
+
+/* Mobile: horizontally scrollable pill bar under a compact header. */
+@media (max-width: 56.24em) {
+	.hm-account-nav {
+		display: flex;
+		flex-wrap: nowrap;
+		gap: .5rem;
+		overflow-x: auto;
+		padding-block-end: .5rem;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+	}
+
+	.hm-account-nav::-webkit-scrollbar {
+		display: none;
+	}
+
+	.hm-account-nav__group {
+		display: contents;
+	}
+
+	.hm-account-nav__group-title {
+		display: none;
+	}
+
+	.hm-account-nav__list {
+		display: flex;
+		gap: .5rem;
+	}
+
+	.hm-account-nav__link {
+		flex: none;
+		padding: .5rem .875rem;
+		border: 1px solid var(--hm-color-border);
+		border-radius: var(--hm-radius-pill);
+		background: var(--hm-color-surface);
+		white-space: nowrap;
+	}
+
+	.hm-account-nav__item.is-current .hm-account-nav__link {
+		border-color: transparent;
+		background: var(--hm-gradient-action);
+		color: #FFF;
+	}
+
+	.hm-account-nav__item.is-current .hm-account-nav__link .hm-icon {
+		color: #FFF;
+	}
+
+	.hm-account-nav__group--logout {
+		border-block-start: 0;
+		padding-block-start: 0;
+	}
+}
+
+/* Overview. */
+.hm-dashboard-overview {
+	display: grid;
+	gap: var(--hm-space-6, 1.5rem);
+}
+
+.hm-dashboard-welcome {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--hm-space-5, 1.25rem);
+	padding: var(--hm-space-6, 1.5rem);
+}
+
+.hm-dashboard-welcome__avatar img {
+	display: block;
+	border-radius: 50%;
+}
+
+.hm-dashboard-welcome__body {
+	flex: 1;
+	min-width: 12rem;
+}
+
+.hm-dashboard-welcome__name {
+	margin: 0;
+	font-size: var(--hm-text-2xl);
+}
+
+.hm-dashboard-welcome__meta {
+	margin: .25rem 0 0;
+	color: var(--hm-color-text-muted);
+	font-size: .875rem;
+}
+
+.hm-dashboard-welcome__text {
+	margin: .5rem 0 0;
+	color: var(--hm-color-text-muted);
+}
+
+.hm-dashboard-welcome__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+}
+
+.hm-dashboard-updates__list {
+	display: grid;
+	gap: .375rem;
+	margin: .5rem 0 0;
+	padding: 0;
+	list-style: none;
+	font-size: .875rem;
+}
+
+.hm-dashboard-stats {
+	gap: var(--hm-space-5, 1.25rem);
+}
+
+a.hm-stat {
+	text-decoration: none;
+	color: inherit;
+	transition: transform var(--hm-duration-fast);
+}
+
+a.hm-stat:hover {
+	transform: translateY(-2px);
+}
+
+.hm-dashboard-notifications__list,
+.hm-dashboard-notifications-page__list {
+	display: grid;
+	gap: .5rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.hm-dashboard-notifications__item {
+	padding-block: .375rem;
+	font-size: .875rem;
+	border-block-end: 1px solid var(--hm-color-border);
+}
+
+.hm-dashboard-notifications__item:last-child {
+	border-block-end: 0;
+}
+
+.hm-dashboard-notifications__item.is-unread .hm-dashboard-notifications__title {
+	position: relative;
+	padding-inline-start: 1rem;
+	font-weight: 700;
+}
+
+.hm-dashboard-notifications__item.is-unread .hm-dashboard-notifications__title::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	top: .4em;
+	width: .5rem;
+	height: .5rem;
+	border-radius: 50%;
+	background: var(--hm-color-link);
+}
+
+/* Notifications page. */
+.hm-dashboard-notifications-page {
+	display: grid;
+	gap: var(--hm-space-4, 1rem);
+}
+
+.hm-dashboard-notifications-page__mark-all {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.hm-dashboard-notifications-page__item {
+	display: block;
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--hm-color-border);
+	border-radius: var(--hm-radius-lg);
+	background: var(--hm-color-elevated);
+}
+
+.hm-dashboard-notifications-page__item.is-unread {
+	border-color: var(--hm-color-link);
+	background: var(--hm-gradient-soft), var(--hm-color-elevated);
+}
+
+.hm-dashboard-notifications-page__link {
+	display: grid;
+	gap: .25rem;
+	color: inherit;
+	text-decoration: none;
+}
+
+.hm-dashboard-notifications-page__title {
+	font-weight: 700;
+}
+
+.hm-dashboard-notifications-page__message {
+	color: var(--hm-color-text-muted);
+	font-size: .9375rem;
+}
+
+.hm-dashboard-notifications-page__date {
+	color: var(--hm-color-text-subtle);
+	font-size: .8125rem;
+}
+
+/* Restyle WooCommerce's own Orders/Downloads tables (hm-table stacking pattern,
+   reusing WooCommerce's own data-title attribute in place of data-label). */
+.woocommerce-orders-table,
+.woocommerce-table--order-downloads,
+.shop_table_responsive {
+	width: 100%;
+	margin: 0;
+	border-collapse: collapse;
+	font-size: .875rem;
+}
+
+.woocommerce-orders-table th,
+.woocommerce-orders-table td,
+.woocommerce-table--order-downloads th,
+.woocommerce-table--order-downloads td {
+	padding: .75rem 1rem;
+	border-block-end: 1px solid var(--hm-color-border);
+	text-align: start;
+}
+
+.woocommerce-orders-table thead th {
+	background: var(--hm-color-surface);
+	color: var(--hm-color-text-muted);
+	font-weight: 600;
+}
+
+.woocommerce-orders-table tr.order .button,
+.woocommerce-table--order-downloads .button {
+	display: inline-flex;
+	align-items: center;
+	padding: .1875rem .875rem;
+	border-radius: var(--hm-radius-pill);
+	background: var(--hm-gradient-action);
+	color: #FFF;
+	font-size: .8125rem;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+@media (max-width: 39.99em) {
+	.woocommerce-orders-table thead {
+		position: absolute;
+		clip: rect(0, 0, 0, 0);
+	}
+
+	.woocommerce-orders-table tr {
+		display: block;
+		padding-block: .5rem;
+		border-block-end: 1px solid var(--hm-color-border);
+	}
+
+	.woocommerce-orders-table td {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		padding-block: .5rem;
+		border: 0;
+		text-align: end;
+	}
+
+	.woocommerce-orders-table td[data-title]::before {
+		content: attr(data-title);
+		color: var(--hm-color-text-muted);
+		font-weight: 600;
+	}
+}

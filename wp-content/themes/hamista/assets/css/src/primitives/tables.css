@@ -1,0 +1,64 @@
+/**
+ * Tables (spec §4.2): hm-table-wrap, hm-table. Surface: primitives/_shared.css. Below 40em rows
+ * stack and every cell prints its column name from data-label.
+ */
+.hm-table-wrap {
+	overflow-x: auto;
+}
+
+.hm-table {
+	width: 100%;
+	margin: 0;
+	border-collapse: collapse;
+	font-size: .875rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.hm-table :is(th, td) {
+	padding: .75rem 1rem;
+	border-block-end: 1px solid var(--hm-color-border);
+	text-align: start;
+}
+
+.hm-table th {
+	background: var(--hm-color-surface);
+	color: var(--hm-color-text-muted);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.hm-table tr:last-child > td {
+	border: 0;
+}
+
+@media (max-width: 39.99em) {
+	.hm-table thead {
+		position: absolute;
+		clip: rect(0, 0, 0, 0);
+	}
+
+	.hm-table tr {
+		display: block;
+		padding-block: .5rem;
+		border-block-end: 1px solid var(--hm-color-border);
+	}
+
+	.hm-table tr:last-child {
+		border: 0;
+	}
+
+	.hm-table td {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		padding-block: .5rem;
+		border: 0;
+		text-align: end;
+	}
+
+	.hm-table td[data-label]::before {
+		content: attr(data-label);
+		color: var(--hm-color-text-muted);
+		font-weight: 600;
+	}
+}

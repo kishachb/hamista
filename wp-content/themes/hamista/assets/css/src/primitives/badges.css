@@ -1,0 +1,47 @@
+/**
+ * Badges (spec §4.2): hm-badge + --success, --warning, --danger, --info, --neutral, --brand.
+ * Status text on its own soft tint is >= 4.5:1 in both modes; --brand is white on the action
+ * gradient (>= 5.1:1).
+ */
+.hm-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: .375em;
+	padding: .1875em .75em;
+	border-radius: var(--hm-radius-pill);
+	background: var(--hm-color-surface-2);
+	font-size: .75rem;
+	font-weight: 600;
+	line-height: 1.6;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.hm-badge--success {
+	background: var(--hm-color-success-soft);
+	color: var(--hm-color-success);
+}
+
+.hm-badge--warning {
+	background: var(--hm-color-warning-soft);
+	color: var(--hm-color-warning);
+}
+
+.hm-badge--danger {
+	background: var(--hm-color-danger-soft);
+	color: var(--hm-color-danger);
+}
+
+.hm-badge--info {
+	background: var(--hm-color-info-soft);
+	color: var(--hm-color-info);
+}
+
+.hm-badge--neutral {
+	color: var(--hm-color-text-muted);
+}
+
+.hm-badge--brand {
+	background: var(--hm-gradient-action);
+	color: #FFF;
+}

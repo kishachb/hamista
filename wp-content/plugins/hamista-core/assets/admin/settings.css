@@ -1,0 +1,772 @@
+/**
+ * Hamista Settings — the unified "Hamista Settings" panel.
+ *
+ * Loaded only on the settings screen, after admin.css (reuses its
+ * --hm-admin-* tokens). Scoped to .hamista-admin .hm-settings.
+ * Logical properties only: wp-admin runs right-to-left in fa_IR.
+ */
+
+.hamista-admin .hm-settings {
+	--hm-settings-nav-w: 264px;
+}
+
+/* Layout */
+
+.hamista-admin .hm-settings__layout {
+	display: grid;
+	grid-template-columns: var(--hm-settings-nav-w) minmax(0, 1fr);
+	gap: 20px;
+	align-items: start;
+}
+
+@media (max-width: 900px) {
+
+	.hamista-admin .hm-settings__layout {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Navigation */
+
+.hamista-admin .hm-settings__nav {
+	position: sticky;
+	inset-block-start: 32px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 16px;
+	background: var(--hm-admin-surface);
+	border: 1px solid var(--hm-admin-border);
+	border-radius: var(--hm-admin-radius);
+	box-shadow: var(--hm-admin-shadow);
+}
+
+@media (max-width: 900px) {
+
+	.hamista-admin .hm-settings__nav {
+		position: static;
+	}
+}
+
+.hamista-admin .hm-settings__search .hm-input {
+	inline-size: 100%;
+}
+
+.hamista-admin .hm-settings__nav-title {
+	margin-block: 0 8px;
+	margin-inline: 4px;
+	color: var(--hm-admin-muted);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.hamista-admin .hm-settings__nav-list {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.hamista-admin .hm-settings__nav-link {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding-block: 8px;
+	padding-inline: 10px;
+	color: var(--hm-admin-text);
+	font-size: 13px;
+	text-decoration: none;
+	border-radius: var(--hm-admin-radius-sm);
+	transition: background-color var(--hm-admin-duration) var(--hm-admin-ease), color var(--hm-admin-duration) var(--hm-admin-ease);
+}
+
+.hamista-admin .hm-settings__nav-link .hm-icon {
+	flex: none;
+	color: var(--hm-admin-muted);
+}
+
+.hamista-admin .hm-settings__nav-link:hover {
+	background: var(--hm-admin-surface-2);
+}
+
+.hamista-admin .hm-settings__nav-link.is-active {
+	color: var(--hm-admin-accent);
+	background: var(--hm-admin-accent-soft);
+	font-weight: 600;
+}
+
+.hamista-admin .hm-settings__nav-link.is-active .hm-icon {
+	color: var(--hm-admin-accent);
+}
+
+.hamista-admin .hm-settings__nav-link[hidden] {
+	display: none;
+}
+
+.hamista-admin .hm-settings__nav-group[hidden] {
+	display: none;
+}
+
+/* Content */
+
+.hamista-admin .hm-settings__content {
+	min-inline-size: 0;
+	padding-block-end: 96px;
+}
+
+.hamista-admin .hm-settings__section {
+	margin-block-end: 16px;
+}
+
+.hamista-admin .hm-settings__section .hm-card__title {
+	margin-block-end: 2px;
+}
+
+.hamista-admin .hm-settings__section > .hm-card__text {
+	margin-block-end: 16px;
+}
+
+.hamista-admin .hm-settings__status-title {
+	margin-block: 20px 8px;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+/* Fields */
+
+.hamista-admin .hm-field {
+	padding-block: 14px;
+	border-block-start: 1px solid var(--hm-admin-border);
+}
+
+.hamista-admin .hm-field:first-of-type {
+	border-block-start: none;
+	padding-block-start: 4px;
+}
+
+.hamista-admin .hm-field[hidden] {
+	display: none;
+}
+
+.hamista-admin .hm-field__label {
+	display: block;
+	margin-block-end: 6px;
+	color: var(--hm-admin-text);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.hamista-admin .hm-required {
+	color: var(--hm-admin-danger);
+}
+
+.hamista-admin .hm-field__control {
+	max-inline-size: 520px;
+}
+
+.hamista-admin .hm-field--toggle .hm-field__control,
+.hamista-admin .hm-field--html .hm-field__control,
+.hamista-admin .hm-field--modules .hm-field__control,
+.hamista-admin .hm-field--repeater .hm-field__control,
+.hamista-admin .hm-field--sortable .hm-field__control {
+	max-inline-size: none;
+}
+
+.hamista-admin .hm-field__toggle-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.hamista-admin .hm-field__toggle-label {
+	color: var(--hm-admin-text);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.hamista-admin .hm-field__help {
+	margin-block: 6px 0;
+	color: var(--hm-admin-muted);
+	font-size: 12px;
+	line-height: 1.7;
+}
+
+.hamista-admin .hm-field__default {
+	margin-block: 4px 0;
+	color: var(--hm-admin-muted);
+	font-size: 11px;
+	font-style: italic;
+}
+
+.hamista-admin .hm-field__notice {
+	margin-block-end: 8px;
+}
+
+.hamista-admin .hm-field__html :last-child {
+	margin-block-end: 0;
+}
+
+/* Inputs */
+
+.hamista-admin .hm-input,
+.hamista-admin .hm-select,
+.hamista-admin .hm-textarea {
+	inline-size: 100%;
+	max-inline-size: 100%;
+	padding-block: 7px;
+	padding-inline: 10px;
+	color: var(--hm-admin-text);
+	font-size: 13px;
+	background: var(--hm-admin-surface);
+	border: 1px solid var(--hm-admin-border-strong);
+	border-radius: var(--hm-admin-radius-sm);
+	transition: border-color var(--hm-admin-duration) var(--hm-admin-ease), box-shadow var(--hm-admin-duration) var(--hm-admin-ease);
+}
+
+.hamista-admin .hm-input:focus,
+.hamista-admin .hm-select:focus,
+.hamista-admin .hm-textarea:focus {
+	border-color: var(--hm-admin-focus);
+	outline: none;
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--hm-admin-focus) 20%, transparent);
+}
+
+.hamista-admin .hm-input--number {
+	max-inline-size: 140px;
+}
+
+.hamista-admin .hm-input[readonly] {
+	color: var(--hm-admin-muted);
+	background: var(--hm-admin-surface-2);
+}
+
+.hamista-admin .hm-textarea {
+	resize: vertical;
+}
+
+.hamista-admin .hm-code {
+	font-family: var(--hm-admin-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+	font-size: 12.5px;
+	line-height: 1.6;
+	tab-size: 2;
+	direction: ltr;
+	text-align: start;
+}
+
+.hamista-admin .hm-settings__section .hm-code {
+	max-inline-size: none;
+}
+
+pre.hm-code {
+	max-inline-size: 100%;
+	margin: 8px 0;
+	padding: 10px 12px;
+	overflow: auto;
+	background: var(--hm-admin-surface-2);
+	border-radius: var(--hm-admin-radius-sm);
+}
+
+.hamista-admin .hm-check-group,
+.hamista-admin .hm-radio-group {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.hamista-admin .hm-check {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 13px;
+}
+
+/* Toggle switch */
+
+.hamista-admin .hm-toggle {
+	position: relative;
+	display: inline-flex;
+	flex: none;
+	cursor: pointer;
+}
+
+.hamista-admin .hm-toggle input {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	opacity: 0;
+}
+
+.hamista-admin .hm-toggle__track {
+	display: block;
+	inline-size: 40px;
+	block-size: 22px;
+	background: var(--hm-admin-border-strong);
+	border-radius: var(--hm-admin-radius-pill);
+	transition: background-color var(--hm-admin-duration) var(--hm-admin-ease);
+}
+
+.hamista-admin .hm-toggle__thumb {
+	display: block;
+	inline-size: 16px;
+	block-size: 16px;
+	margin: 3px;
+	background: #fff;
+	border-radius: 50%;
+	box-shadow: 0 1px 2px rgb(0 0 0 / 25%);
+	transition: transform var(--hm-admin-duration) var(--hm-admin-ease);
+}
+
+.hamista-admin .hm-toggle input:checked + .hm-toggle__track {
+	background: var(--hm-admin-gradient-action);
+}
+
+.hamista-admin .hm-toggle input:checked + .hm-toggle__track .hm-toggle__thumb {
+	transform: translateX(18px);
+}
+
+.rtl.hamista-admin .hm-toggle input:checked + .hm-toggle__track .hm-toggle__thumb {
+	transform: translateX(-18px);
+}
+
+.hamista-admin .hm-toggle input:focus-visible + .hm-toggle__track {
+	outline: 2px solid var(--hm-admin-focus);
+	outline-offset: 2px;
+}
+
+.hamista-admin .hm-toggle--sm .hm-toggle__track {
+	inline-size: 32px;
+	block-size: 18px;
+}
+
+.hamista-admin .hm-toggle--sm .hm-toggle__thumb {
+	inline-size: 12px;
+	block-size: 12px;
+}
+
+.hamista-admin .hm-toggle--sm input:checked + .hm-toggle__track .hm-toggle__thumb {
+	transform: translateX(14px);
+}
+
+.rtl.hamista-admin .hm-toggle--sm input:checked + .hm-toggle__track .hm-toggle__thumb {
+	transform: translateX(-14px);
+}
+
+.hamista-admin .hm-toggle--disabled,
+.hamista-admin .hm-toggle:has(input:disabled) {
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+
+/* Choice cards */
+
+.hamista-admin .hm-choice-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.hamista-admin .hm-choice {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-inline-size: 140px;
+	padding: 12px;
+	cursor: pointer;
+	background: var(--hm-admin-surface);
+	border: 1px solid var(--hm-admin-border-strong);
+	border-radius: var(--hm-admin-radius-sm);
+	transition: border-color var(--hm-admin-duration) var(--hm-admin-ease), box-shadow var(--hm-admin-duration) var(--hm-admin-ease);
+}
+
+.hamista-admin .hm-choice:hover {
+	border-color: var(--hm-admin-accent);
+}
+
+.hamista-admin .hm-choice.is-selected {
+	border-color: var(--hm-admin-accent);
+	box-shadow: 0 0 0 1px var(--hm-admin-accent);
+}
+
+.hamista-admin .hm-choice .hm-icon {
+	color: var(--hm-admin-accent);
+}
+
+.hamista-admin .hm-choice__label {
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.hamista-admin .hm-choice__desc {
+	color: var(--hm-admin-muted);
+	font-size: 11px;
+}
+
+/* Colour field */
+
+.hamista-admin .hm-color-field {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.hamista-admin .hm-color-field__native {
+	inline-size: 32px;
+	block-size: 32px;
+	padding: 2px;
+	background: none;
+	border: 1px solid var(--hm-admin-border-strong);
+	border-radius: var(--hm-admin-radius-sm);
+	cursor: pointer;
+}
+
+.hamista-admin .hm-color-field__text {
+	inline-size: 120px;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	direction: ltr;
+	text-align: start;
+}
+
+/* Media (image) field */
+
+.hamista-admin .hm-media-field {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+}
+
+.hamista-admin .hm-media-field__preview {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	inline-size: 72px;
+	block-size: 72px;
+	overflow: hidden;
+	background: var(--hm-admin-surface-2);
+	border: 1px dashed var(--hm-admin-border-strong);
+	border-radius: var(--hm-admin-radius-sm);
+}
+
+.hamista-admin .hm-media-field__preview img {
+	max-inline-size: 100%;
+	max-block-size: 100%;
+	object-fit: contain;
+}
+
+/* Modules grid */
+
+.hamista-admin .hm-modules-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 14px;
+}
+
+.hamista-admin .hm-module-card {
+	gap: 6px;
+}
+
+.hamista-admin .hm-module-card--unavailable {
+	opacity: 0.75;
+}
+
+.hamista-admin .hm-module-card__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.hamista-admin .hm-module-card__head .hm-card__title {
+	margin: 0;
+}
+
+.hamista-admin .hm-module-card__reason {
+	color: var(--hm-admin-warning);
+}
+
+.hamista-admin .hm-module-card .hm-toggle {
+	margin-block-start: auto;
+	align-self: flex-start;
+}
+
+/* Repeater */
+
+.hamista-admin .hm-repeater__rows {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-block-end: 10px;
+}
+
+.hamista-admin .hm-repeater__row {
+	background: var(--hm-admin-surface);
+	border: 1px solid var(--hm-admin-border);
+	border-radius: var(--hm-admin-radius-sm);
+}
+
+.hamista-admin .hm-repeater__row-head {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding-block: 8px;
+	padding-inline: 10px;
+	background: var(--hm-admin-surface-2);
+	border-radius: var(--hm-admin-radius-sm) var(--hm-admin-radius-sm) 0 0;
+}
+
+.hamista-admin .hm-repeater__row.is-collapsed .hm-repeater__row-body {
+	display: none;
+}
+
+.hamista-admin .hm-repeater__row.is-collapsed .hm-repeater__toggle .hm-icon,
+.hamista-admin .hm-repeater__row .hm-repeater__toggle .hm-icon {
+	transition: transform var(--hm-admin-duration) var(--hm-admin-ease);
+}
+
+.hamista-admin .hm-repeater__row.is-collapsed .hm-repeater__toggle .hm-icon {
+	transform: rotate(-90deg);
+}
+
+.rtl.hamista-admin .hm-repeater__row.is-collapsed .hm-repeater__toggle .hm-icon {
+	transform: rotate(90deg);
+}
+
+.hamista-admin .hm-repeater__handle {
+	display: flex;
+	color: var(--hm-admin-muted);
+	cursor: grab;
+}
+
+.hamista-admin .hm-repeater__row-title {
+	overflow: hidden;
+	color: var(--hm-admin-text);
+	font-size: 12.5px;
+	font-weight: 600;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	flex: 1 1 auto;
+}
+
+.hamista-admin .hm-repeater__move,
+.hamista-admin .hm-repeater__toggle,
+.hamista-admin .hm-repeater__remove {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	inline-size: 26px;
+	block-size: 26px;
+	color: var(--hm-admin-muted);
+	background: transparent;
+	border: none;
+	border-radius: var(--hm-admin-radius-sm);
+	cursor: pointer;
+}
+
+.hamista-admin .hm-repeater__move:hover,
+.hamista-admin .hm-repeater__toggle:hover {
+	color: var(--hm-admin-text);
+	background: var(--hm-admin-border);
+}
+
+.hamista-admin .hm-repeater__remove:hover {
+	color: #fff;
+	background: var(--hm-admin-danger);
+}
+
+.hamista-admin .hm-repeater__row-body {
+	display: grid;
+	gap: 10px;
+	padding: 12px;
+}
+
+.hamista-admin .hm-field--sub {
+	padding-block: 0;
+	border: none;
+}
+
+.hamista-admin .hm-field--sub .hm-field__label {
+	margin-block-end: 4px;
+	font-size: 12px;
+}
+
+.hamista-admin .hm-repeater__template {
+	display: none;
+}
+
+.hamista-admin .hm-repeater__row.is-dragging {
+	opacity: 0.5;
+}
+
+/* Sortable */
+
+.hamista-admin .hm-sortable {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.hamista-admin .hm-sortable__row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding-block: 8px;
+	padding-inline: 10px;
+	background: var(--hm-admin-surface);
+	border: 1px solid var(--hm-admin-border);
+	border-radius: var(--hm-admin-radius-sm);
+}
+
+.hamista-admin .hm-sortable__row.is-dragging {
+	opacity: 0.5;
+}
+
+.hamista-admin .hm-sortable__handle {
+	display: flex;
+	color: var(--hm-admin-muted);
+	cursor: grab;
+}
+
+.hamista-admin .hm-sortable__label {
+	flex: 1 1 auto;
+	font-size: 13px;
+}
+
+.hamista-admin .hm-sortable__move {
+	display: flex;
+	gap: 2px;
+}
+
+.hamista-admin .hm-sortable__move button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	inline-size: 24px;
+	block-size: 24px;
+	color: var(--hm-admin-muted);
+	background: transparent;
+	border: none;
+	border-radius: var(--hm-admin-radius-sm);
+	cursor: pointer;
+}
+
+.hamista-admin .hm-sortable__move button:hover {
+	color: var(--hm-admin-text);
+	background: var(--hm-admin-border);
+}
+
+/* Status tables */
+
+.hamista-admin .hm-table--status {
+	inline-size: 100%;
+	margin-block-end: 14px;
+	border-collapse: collapse;
+}
+
+.hamista-admin .hm-table--status td {
+	padding-block: 8px;
+	padding-inline: 4px;
+	border-block-end: 1px solid var(--hm-admin-border);
+	font-size: 13px;
+}
+
+.hamista-admin .hm-table--status td:first-child {
+	color: var(--hm-admin-muted);
+	inline-size: 40%;
+}
+
+/* Alerts */
+
+.hamista-admin .hm-alert {
+	margin-block-end: 16px;
+	padding-block: 10px;
+	padding-inline: 14px;
+	font-size: 13px;
+	line-height: 1.6;
+	border-radius: var(--hm-admin-radius-sm);
+}
+
+.hamista-admin .hm-alert--success {
+	color: var(--hm-admin-success);
+	background: var(--hm-admin-success-soft);
+}
+
+.hamista-admin .hm-alert--warning {
+	color: var(--hm-admin-warning);
+	background: var(--hm-admin-warning-soft);
+}
+
+.hamista-admin .hm-alert--danger,
+.hamista-admin .hm-alert--error {
+	color: var(--hm-admin-danger);
+	background: var(--hm-admin-danger-soft);
+}
+
+.hamista-admin .hm-alert--info {
+	color: var(--hm-admin-info);
+	background: var(--hm-admin-info-soft);
+}
+
+/* Save bar */
+
+.hamista-admin .hm-settings__savebar {
+	position: sticky;
+	inset-block-end: 0;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-block-start: 16px;
+	padding: 12px 16px;
+	background: var(--hm-admin-surface);
+	border: 1px solid var(--hm-admin-border);
+	border-radius: var(--hm-admin-radius);
+	box-shadow: var(--hm-admin-shadow-hover);
+}
+
+.hamista-admin .hm-settings__dirty {
+	color: var(--hm-admin-warning);
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.hamista-admin .hm-settings__dirty[hidden] {
+	display: none;
+}
+
+.hamista-admin .hm-settings-reset {
+	margin-block-start: 20px;
+	text-align: end;
+}
+
+.hamista-admin .hm-settings-reset__btn {
+	color: var(--hm-admin-danger) !important;
+	border-color: var(--hm-admin-danger) !important;
+}
+
+/* Export/import */
+
+.hamista-admin .hm-settings__section input[type="file"] {
+	display: block;
+	margin-block-end: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.hamista-admin .hm-toggle__track,
+	.hamista-admin .hm-toggle__thumb,
+	.hamista-admin .hm-settings__nav-link,
+	.hamista-admin .hm-input,
+	.hamista-admin .hm-select,
+	.hamista-admin .hm-textarea,
+	.hamista-admin .hm-choice {
+		transition: none;
+	}
+}

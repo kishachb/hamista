@@ -1,0 +1,27 @@
+/**
+ * Reveal-on-scroll (theme only). Elements with .hm-reveal start hidden only when JS is running
+ * (html.hm-js, set by the head script) and animations are allowed; main.js adds .is-visible when
+ * they enter the viewport. Stagger with style="--hm-reveal-delay: 80ms".
+ */
+.hm-js .hm-reveal:not(.is-visible) {
+	opacity: 0;
+	transform: translateY(24px);
+}
+
+.hm-js .hm-reveal {
+	transition: opacity var(--hm-duration-slow) var(--hm-ease), transform var(--hm-duration-slow) var(--hm-ease);
+	transition-delay: var(--hm-reveal-delay, 0ms);
+}
+
+html[data-animations="off"] .hm-reveal {
+	opacity: 1;
+	transform: none;
+	transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hm-js .hm-reveal:not(.is-visible) {
+		opacity: 1;
+		transform: none;
+	}
+}

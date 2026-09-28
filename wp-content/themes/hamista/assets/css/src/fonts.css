@@ -1,0 +1,42 @@
+/**
+ * Bundled web fonts (theme only, never in core's ui.css). Both are variable (100–900), OFL-1.1,
+ * self-hosted (no external requests) and split by unicode-range: Vazirmatn-NL carries the Arabic
+ * script (plus ZWNJ/ZWJ and the bidi marks, so Persian shaping never splits across fonts) and
+ * Inter carries Latin. The theme preloads the primary font for the page direction.
+ *
+ * Settings > Typography "system" choices drop a web font from the stack via data-font /
+ * data-font-latin on <html>; an unreferenced face is never downloaded.
+ */
+@font-face {
+	font-family: "Vazirmatn";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("../../fonts/vazirmatn-nl-var.woff2") format("woff2");
+	unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+
+@font-face {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("../../fonts/inter-latin-var.woff2") format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+	--hm-font-sans: "Vazirmatn", "Inter", var(--hm-font-system);
+}
+
+[data-font="system"] {
+	--hm-font-sans: "Inter", var(--hm-font-system);
+}
+
+[data-font-latin="system"] {
+	--hm-font-sans: "Vazirmatn", var(--hm-font-system);
+}
+
+[data-font="system"][data-font-latin="system"] {
+	--hm-font-sans: var(--hm-font-system);
+}

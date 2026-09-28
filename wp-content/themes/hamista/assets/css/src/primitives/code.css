@@ -1,0 +1,27 @@
+/**
+ * Code (spec §4.2): hm-code — a monospace pill for license keys, versions and tokens. Always an
+ * isolated LTR run, so keys read correctly inside Persian text; long keys wrap anywhere. A copy
+ * control ([data-hm-copy], core ui.js) inside it is a .hm-btn--ghost.hm-btn--icon.hm-btn--sm.
+ */
+.hm-code {
+	display: inline-flex;
+	align-items: center;
+	gap: .25em;
+	max-width: 100%;
+	padding: .25em .875em;
+	border: 1px solid var(--hm-color-border);
+	border-radius: var(--hm-radius-pill);
+	background: var(--hm-color-surface);
+	font-family: var(--hm-font-mono);
+	font-size: .875em;
+	direction: ltr;
+	unicode-bidi: isolate;
+	overflow-wrap: anywhere;
+}
+
+.hm-code .hm-btn {
+	--hm-btn-h: 1.75rem;
+	margin-inline-end: -.625em;
+	border-radius: 50%;
+	font-family: var(--hm-font-sans);
+}
